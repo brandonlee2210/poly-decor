@@ -1,2 +1,3 @@
 test;
-hello
+console.log("Pcgkhanh");
+hello;
