@@ -1,12 +1,18 @@
 import { Flex, Menu } from "antd";
 import type { MenuProps } from "antd";
+import React from "react";
 
 import { FaLeaf } from "react-icons/fa";
 
-const items: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+const items: MenuProps["items"] = [
+  {
+    key: 1,
+    label: "Trang chủ",
+  }, {
+    key: 2,
+    label: "Sản phẩm"
+  }
+];
 
 const Sidebar = () => {
   return (

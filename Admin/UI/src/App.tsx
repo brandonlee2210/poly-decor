@@ -1,10 +1,12 @@
 import { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 
 const { Sider, Header, Content } = Layout;
 import "./App.css";
 import Sidebar from "./components/Sidebar";
+
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -21,7 +23,7 @@ function App() {
         <Sidebar></Sidebar>
       </Sider>
       <Layout>
-        <Header theme="light"></Header>
+        <Header ></Header>
         <Content></Content>
       </Layout>
     </Layout>
