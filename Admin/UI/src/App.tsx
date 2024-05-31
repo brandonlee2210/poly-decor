@@ -1,8 +1,7 @@
 import { useState } from "react";
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
-
+import { Breadcrumb, Menu, theme } from 'antd';
 const { Sider, Header, Content } = Layout;
 import "./App.css";
 import Sidebar from "./components/Sidebar";
@@ -10,6 +9,10 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
+
+  const {
+    token: { colorPrimary, borderRadiusLG },
+  } = theme.useToken();
 
   return (
     <Layout>
@@ -19,12 +22,20 @@ function App() {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
         className="sider"
+        style={{ minWidth : "128px" }}
       >
         <Sidebar></Sidebar>
       </Sider>
       <Layout>
-        <Header ></Header>
-        <Content></Content>
+        <Header style={{ backgroundColor: colorPrimary }} ></Header>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+        <Content>
+          
+        </Content>
       </Layout>
     </Layout>
   );

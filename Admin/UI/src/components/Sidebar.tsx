@@ -1,18 +1,8 @@
 import { Flex, Menu } from "antd";
-import type { MenuProps } from "antd";
 import React from "react";
-
+import { SidebarItems } from "../enums/main";
 import { FaLeaf } from "react-icons/fa";
 
-const items: MenuProps["items"] = [
-  {
-    key: 1,
-    label: "Trang chủ",
-  }, {
-    key: 2,
-    label: "Sản phẩm"
-  }
-];
 
 const Sidebar = () => {
   return (
@@ -27,8 +17,8 @@ const Sidebar = () => {
         theme="light"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        items={items}
-        style={{ height: "100%", borderRight: 0 }}
+        items={SidebarItems}
+        style={{ height: "100%", borderRight: 0, padding: "0 6px" }}
         className="menu"
       />
     </>
