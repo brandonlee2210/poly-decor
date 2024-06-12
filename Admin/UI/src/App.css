@@ -1,0 +1,15 @@
+.sider {
+  height: 100vh;
+  position: fixed;
+  left: 0;
+}
+.ant-menu-item-only-child {
+  padding-left: 24px !important;
+}
+.header-logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+
