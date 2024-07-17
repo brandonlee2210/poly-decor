@@ -1,0 +1,416 @@
+body {
+    color: #333;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header {
+    color: #fff;
+    background-color: #222;
+}
+
+#logo,
+#search,
+#cart {
+    height: 60px;
+}
+
+#search input,
+#search button {
+    margin-top: 12px;
+}
+
+#search input {
+    width: 275px;
+    height: 30px;
+    border: none;
+    font-size: 13px;
+    line-height: 30px;
+    font-style: italic;
+    border-radius: 4px 0 0 4px;
+}
+
+#search button {
+    height: 30px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    padding: 0 12px;
+    line-height: 30px;
+    border-radius: 0 4px 4px 0;
+    background-color: #eb1f27;
+}
+
+#main {
+    padding-bottom: 30px;
+    background: #e7ecf4;
+}
+
+#cart {
+    text-align: right;
+    padding-top: 14px;
+}
+
+#cart a,
+#cart span {
+    color: #fff;
+    text-transform: capitalize;
+}
+
+#cart span {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #EB1F27;
+    display: inline-block;
+    border-radius: 100%;
+}
+
+#menu ul {
+    padding: 0;
+    overflow: hidden;
+    background-color: #eb1f27;
+}
+
+.menu-item {
+    float: left;
+    height: 40px;
+    padding: 0 16px;
+    list-style: none;
+    line-height: 40px;
+    border-right: 1px solid #C60A11;
+}
+
+.menu-item:hover {
+    cursor: pointer;
+    background-color: #C60A11;
+}
+
+.menu-item a {
+    color: #fff;
+}
+
+.banner-item {
+    margin-bottom: 10px;
+}
+
+.products h3 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.product-list {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.product-item {
+    padding: 5px;
+    text-align: center;
+}
+
+.product-item img {
+    width: 130px;
+    height: 160px;
+}
+
+.product-item h4 a {
+    padding: 6px;
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.product-item p {
+    text-transform: capitalize;
+}
+
+.product-item span {
+    color: #eb1f27;
+    font-weight: bold;
+}
+
+.product-inner {
+    padding: 6px;
+    background: #fff;
+}
+
+#logo-b,
+#address-b,
+#service-b,
+#hotline-b {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#logo-b p {
+    text-align: justify;
+}
+
+#address-b h3,
+#service-b h3,
+#hotline-b h3 {
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #333;
+}
+
+#footer-b {
+    color: #a1b1bc;
+    background: #1d1e24;
+}
+
+#footer-b p {
+    line-height: 40px;
+    margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+    #sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    #cart {
+        text-align: left;
+    }
+
+    #slider {
+        display: none;
+    }
+
+    .menu-item {
+        float: none;
+        border: none;
+        border-bottom: 1px solid #C60A11;
+    }
+
+    #logo h1 button {
+        float: right;
+        margin-top: 10px;
+        background: #fff;
+    }
+}
+
+@media (min-width: 768px) {
+    #menu {
+        display: block;
+    }
+}
+
+.act-price {
+    font-size: 24px;
+}
+
+.act-price-detail {
+    font-size: 24px;
+    color: red;
+}
+
+/* Sidebar */
+
+.sidebar {
+    display: block;
+    background-color: #fff;
+    padding: 0;
+    display: none;
+}
+
+.sidebar form {
+    padding: 20px 15px 5px 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        display: block;
+        position: fixed;
+        top: 50px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #fff;
+        box-shadow: 1px 0px 10px rgba(0, 0, 0, .05);
+    }
+
+    .navbar-header {
+        width: 100%;
+    }
+}
+
+.sidebar ul.nav a:hover,
+.sidebar ul.nav li.parent ul li a:hover {
+    text-decoration: none;
+    background-color: #e9ecf2;
+}
+
+.sidebar ul.nav .active a,
+.sidebar ul.nav li.parent a.active,
+.sidebar ul.nav .active>a:hover,
+.sidebar ul.nav li.parent a.active:hover,
+.sidebar ul.nav .active>a:focus,
+.sidebar ul.nav li.parent a.active:focus {
+    color: #fff;
+    background-color: #30a5ff;
+}
+
+*/ .sidebar ul.nav ul,
+.sidebar ul.nav ul li {
+    list-style: none;
+    list-style-type: none;
+}
+
+.sidebar ul.nav ul.children {
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: #f9f9f9;
+}
+
+.sidebar ul.nav ul.children li a {
+    height: 40px;
+    background: #f9f9f9;
+    color: #30a5ff !important;
+}
+
+.sidebar ul.nav li.current a {
+    background-color: #30a5ff;
+    color: #fff !important;
+}
+
+.sidebar ul.nav li.parent ul li a {
+    border: none;
+    display: block;
+    padding-left: 30px;
+    line-height: 40px;
+}
+
+
+.sidebar span.glyphicon {
+    margin-right: 10px;
+}
+
+.sidebar ul.nav li.divider {
+    border-bottom: 1px solid #eee;
+    margin: 20px 0;
+}
+
+.sidebar .attribution {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+}
+
+.sidebar .glyph,
+.user-menu .glyph {
+    height: 16px;
+    width: 16px;
+    margin: 0 10px 0 0;
+    stroke-width: 3px;
+}
+
+.user-menu .glyph {
+    stroke-width: 4px;
+}
+
+.breadcrumb .glyph {
+    height: 14px;
+    width: 14px;
+    margin: -2px 0 0 0;
+    stroke-width: 4px;
+}
+
+.alert .glyph,
+.panel-heading .glyph {
+    width: 26px;
+    height: 26px;
+    margin: 0 10px 0 0;
+    stroke-width: 2px;
+}
+
+.panel-widget .glyph {
+    stroke-width: 2px;
+}
+
+.todo-list .glyph {
+    width: 14px;
+    height: 14px;
+    stroke-width: 4px;
+    color: #999;
+}
+
+.glyph.table {
+    background: none;
+    border: none;
+}
+
+/*Icon Grid*/
+
+.icon-grid div {
+    border: 1px solid #ddd;
+    margin: 0 0 -1px -1px;
+    text-align: center;
+    padding: 10px 0 20px 0;
+}
+
+.icon-grid svg {
+    width: 35%;
+    display: block;
+    margin: 0 auto;
+}
+
+.icon-grid h4 {
+    display: none;
+}
+
+.icon-grid pre {
+    margin: 10px 10px -10px 10px;
+    border-radius: 0;
+    font-size: 10px;
+    border-color: #ddd;
+    height: 65px;
+    overflow: scroll;
+}
+
+.navbar-header .navbar-brand {
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.navbar-header .navbar-brand span {
+    color: #30a5ff;
+}
+
+.user-menu {
+    display: inline-block;
+    margin-top: 14px;
+    margin-right: 10px;
+    float: right;
+    list-style: none;
+    padding: 0;
+}
+
+.user-menu a {
+    color: #fff;
+}
+
+.user-menu a:hover,
+.user-menu a:focus {
+    text-decoration: none;
+}

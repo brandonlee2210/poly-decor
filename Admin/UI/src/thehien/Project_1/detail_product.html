@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/jquery-3.6.3.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Start header -->
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div id="logo" class="col-lg-3 col-md-3 col-sm-12">
+                    <h1>
+                        <a href="#">
+                            <img src="images/logo.png" class="img-fluid" alt="">
+                        </a>
+                        <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse"
+                            data-target="#menu" aria-controls="menu" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        </button>
+                    </h1>
+                </div>
+                <div id="search" class="col-lg-7 col-md-7 col-sm-12">
+                    <form class="form-inline">
+                        <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+                <div id="cart" class="col-lg-2 col-md-2 col-sm-12">
+                    <a href="#">
+                        Giỏ Hàng
+                        <span>8</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+
+
+    <!-- Start main -->
+
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="images p-3">
+                                <div class="text-center p-4"> <img id="main-image"
+                                        src="https://cdn-v2.didongviet.vn/files/products/2023/8/29/1/1695953606803_thumb_iphone_15_pro_didongviet.jpg"
+                                        width="250" /> </div>
+                                <div class="thumbnail text-center"> <img onclick="change_image(this)"
+                                        src="https://cdn-v2.didongviet.vn/files/products/2023/8/29/1/1695953606803_thumb_iphone_15_pro_didongviet.jpg"
+                                        width="70"> <img onclick="change_image(this)"
+                                        src="https://cdn-v2.didongviet.vn/files/products/2023/8/13/1/1694546074481_5_iphone_15_pro_xam_didongviet.jpg"
+                                        width="70">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product">
+                                <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">iPhone</span>
+                                    <h3 class="text-uppercase">iPhone 15 Pro Max 256GB Chính hãng (VN/A)</h3>
+                                    <div class="price d-flex flex-row align-items-center act-price">Giá
+                                        bán:<span class="act-price-detail">32.490.000 đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="about">iPhone 15 Pro Max 256GB Chính hãng (VN/A) chính thống giá rẻ chỉ có tại Di
+                                Động Việt - Đại lý uỷ quyền chính thức của
+                                Apple tại Việt Nam. Với thiết kế đầy sang trọng đẳng cấp, cùng với những trang bị chất
+                                lượng như camera chính 48MP, 2
+                                ống kính phụ 12MP, khả năng zoom quang học 5x. Cùng với nâng cấp hiệu năng ấn tượng với
+                                con chip mới nhất đầy mạnh mẽ
+                                Apple A17 Pro. Cùng với viên pin lớn kết hợp cùng hệ điều hành mới nhất iOS 17 mang đến
+                                thời lượng pin bền bỉ, ấn tượng.
+                            </p>
+                            <div class="sizes mt-5">
+                                <h6 class="text-uppercase">Chọn màu:</h6> <label class="radio"> <input type="radio"
+                                        name="size" value="S" checked> <span>Titan Xanh</span> </label> <label
+                                    class="radio">
+                                    <input type="radio" name="size" value="M"> <span>Titan Trắng</span> </label>
+                                <label class="radio"> <input type="radio" name="size" value="L"> <span>Titan
+                                        Đen</span>
+                                </label>
+                                <label class="radio"> <input type="radio" name="size" value="XL"> <span>Titan Tự
+                                        Nhiên </span>
+                                </label>
+                            </div>
+                            <div class="cart mt-4 align-items-center"> <button
+                                    class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i
+                                    class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- End main -->
+
+
+    <!-- Start footer-t -->
+    <div id="footer-t">
+        <div class="container">
+            <div class="row">
+                <div id="logo-b" class="col-lg-3 col-md-6 col-sm-12">
+                    <h2>
+                        <a href="#">
+                            <img src="images/logo-footer.png" alt="">
+                        </a>
+                    </h2>
+                    <p>
+                        Vietpro Academy thành lập năm 2009. Chúng
+                        tôi đào tạo chuyên sâu trong 2 lĩnh vực là Lập
+                        trình Website & Mobile nhằm cung cấp cho thị
+                        trường CNTT Việt Nam những lập trình viên
+                        thực sự chất lượng, có khả năng làm việc độc
+                        lập, cũng như Team Work ở mọi môi trường đòi
+                        hỏi sự chuyên nghiệp cao.
+                    </p>
+                </div>
+                <div id="address-b" class="col-lg-3 col-md-6 col-sm-12">
+                    <h3>Địa chỉ</h3>
+                    <p>B8A Võ Văn Dũng - Hoàng Cầu Đống Đa -
+                        Hà Nội</p>
+                    <p>Số 25 Ngõ 178/71 - Tây Sơn Đống Đa - Hà
+                        Nội</p>
+                </div>
+                <div id="service-b" class="col-lg-3 col-md-6 col-sm-12">
+                    <h3>Dịch vụ</h3>
+                    <p>Bảo hành rơi vỡ, ngấm nước Care Diamond</p>
+                    <p>Bảo hành Care X60 rơi vỡ ngấm nước vẫn Đổi
+                        mới</p>
+                </div>
+                <div id="hotline-b" class="col-lg-3 col-md-6 col-sm-12">
+                    <h3>Hotline</h3>
+                    <p>Phone Sale: (+84) 0988 550 553</p>
+                    <p>Email: vietpro.edu.vn@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End footer-t -->
+
+
+    <!-- Start footer-b -->
+    <div id="footer-b">
+        <div class="container">
+            <p>2018 © Vietpro Academy. All rights reserved. Developed by Vietpro Software.</p>
+        </div>
+    </div>
+    <!-- End footer-b -->
+</body>
+
+</html>
