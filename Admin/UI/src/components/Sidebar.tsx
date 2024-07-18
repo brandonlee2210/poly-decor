@@ -3,7 +3,6 @@ import React from "react";
 import { SidebarItems } from "../enums/main";
 import { FaLeaf } from "react-icons/fa";
 
-
 const Sidebar = () => {
   return (
     <>
