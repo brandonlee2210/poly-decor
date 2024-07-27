@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "http://127.0.0.1",
+    origin: "*",
     exposedHeaders: ["set-cookie"],
   })
 );
