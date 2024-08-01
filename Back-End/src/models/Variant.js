@@ -35,6 +35,9 @@ const variantSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  galery: {
+    type: Array,
+  },
 });
 
 const Variant = mongoose.model("Variant", variantSchema);
