@@ -71,6 +71,28 @@ const CartProvider = ({ children }) => {
     // set to local storage
     localStorage.setItem("carts", JSON.stringify([...carts, newCart]));
   };
+ const editCart = (newCart) => {
+    // check if color and material are already
+    const existingCartColorMaterial = carts.find(
+      (cart) =>
+        cart._id === newCart._id &&
+        cart.color === newCart.color &&
+        cart.material === newCart.material
+    );
+
+    // If it does, update the quantity instead of adding a new one
+    if (existingCartColorMaterial) {
+      existingCartColorMaterial.quantity += newCart.quantity;
+      return;
+    }
+
+    // If it doesn't, add the new cart to the carts array
+    newCart.quantity = 1; // Set initial quantity to 1 for new carts
+
+    setCarts([...carts, newCart]);
+    // set to local storage
+    localStorage.setItem("carts", JSON.stringify([...carts, newCart]));
+  };
 
   const removeCart = (cardId) => {
     const updatedCarts = carts.filter((card) => card._id !== cardId);
