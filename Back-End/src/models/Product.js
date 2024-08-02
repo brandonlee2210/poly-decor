@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isUpdated: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
