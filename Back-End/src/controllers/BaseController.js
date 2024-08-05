@@ -1,6 +1,7 @@
-import { validationResult } from 'express-validator';
+// create class base with CRUD
 
 class BaseController {
+  k;
   constructor(model) {
     this.model = model;
 
@@ -13,101 +14,52 @@ class BaseController {
   }
 
   async create(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const data = req.body;
-      const newDocument = new this.model(data);
-      const result = await newDocument.save();
-      return res.status(201).json(result);
-    } catch (error) {
-      return res.status(500).json({ message: "Error creating document", error });
-    }
+    let data = req.body;
+    let newDocument = new this.model(data);
+    let result = await newDocument.save();
+    return res.status(201).json(result);
   }
 
   async getById(req, res) {
-    const { id } = req.params;
+    let id = req.params.id;
 
     if (!id) {
       return res.status(400).json({ message: "ID is required" });
     }
 
-    try {
-      const document = await this.model.findById(id);
+    let document = await this.model.findById(id);
 
-      if (!document) {
-        return res.status(404).json({ message: "Document not found" });
-      }
-
-      return res.status(200).json(document);
-    } catch (error) {
-      return res.status(500).json({ message: "Error retrieving document", error });
+    if (!document) {
+      return res.status(404).json({ message: "Document not found" });
     }
+
+    return res.status(200).json(document);
   }
 
-  async update(req, res) {
-    const { id } = req.params;
-    const data = req.body;
-
-    if (!id) {
-      return res.status(400).json({ message: "ID is required" });
-    }
-
-    try {
-      const updatedDocument = await this.model.findByIdAndUpdate(id, data, { new: true });
-
-      if (!updatedDocument) {
-        return res.status(404).json({ message: "Document not found" });
-      }
-
-      return res.status(200).json(updatedDocument);
-    } catch (error) {
-      return res.status(500).json({ message: "Error updating document", error });
-    }
+  update(id, data) {
+    return this.model.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async delete(req, res) {
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(400).json({ message: "ID is required" });
-    }
-
-    try {
-      const deletedDocument = await this.model.findByIdAndDelete(id);
-
-      if (!deletedDocument) {
-        return res.status(404).json({ message: "Document not found" });
-      }
-
-      return res.status(200).json({ message: "Document deleted successfully" });
-    } catch (error) {
-      return res.status(500).json({ message: "Error deleting document", error });
-    }
+  delete(id) {
+    return this.model.findByIdAndDelete(id);
   }
 
-  async getAll(req, res) {
-    try {
-      const { page = 1, limit = 10 } = req.query;
-      const startIndex = (page - 1) * limit;
+  async getAll(reqest, response) {
+    let res = await this.model.find();
 
-      const total = await this.model.countDocuments();
-      const data = await this.model.find().skip(startIndex).limit(parseInt(limit));
+    // handle pagination
+    let page = parseInt(reqest.query.page) || 1;
+    let limit = parseInt(reqest.query.limit) || 10;
+    let startIndex = (page - 1) * limit;
+    let endIndex = page * limit;
+    let results = {};
 
-      const results = {
-        total,
-        data,
-        currentPage: parseInt(page),
-        totalPages: Math.ceil(total / limit),
-      };
+    results.total = res.length;
+    results.data = res.slice(startIndex, endIndex);
+    results.currentPage = page;
+    results.pages = Math.ceil(results.total / limit);
 
-      return res.status(200).json(results);
-    } catch (error) {
-      return res.status(500).json({ message: "Error retrieving documents", error });
-    }
+    return response.status(200).json(results);
   }
 }
 
