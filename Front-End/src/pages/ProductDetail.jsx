@@ -150,6 +150,17 @@ const ProductDetail = () => {
     message.success(`Thêm thành công ${product.name} vào giỏ hàng`);
   };
 
+  const addNewCart = () => {
+    // TODO: add to cart logic
+    let cartData = {
+      ...product,
+      material,
+      color: colors.find((c) => c.id === activeColor).name,
+    };
+    addCart(cartData);
+    message.success(`Thêm thành công ${product.name} vào giỏ hàng`);
+  };
+
   useEffect(() => {
     getProductById(id).then((res) => {
       setProduct(res);
