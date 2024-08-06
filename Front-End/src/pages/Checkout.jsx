@@ -81,19 +81,7 @@ const Checkout = () => {
     );
     setDistricts(data.data);
   };
-  const handleDistricts = async (e) => {
-    setProvince(e.target.value);
-    const { data } = await axios.get(
-      "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
-      {
-        params: { province_id: e.target.value },
-        headers: {
-          token: "b10e4bc9-3789-11ef-8f55-4ee3d82283af",
-        },
-      }
-    );
-    setDistricts(data.data);
-  };
+
 
   const handleGetWards = async (e) => {
     setDistrict(e.target.value);
