@@ -1,39 +1,32 @@
 import { Router } from "express";
+
 import CategoryRouter from "./category.js";
-import UserRouter from "./user.js";
+import VariantRouter from "./variant.js";
+import OrderRouter from "./order.js";
+import authRouter from "./auth.js";
+import OrderDetailRouter from "./orderDetail.js";
 
 const router = Router();
 
-// Middleware check quyền 
-const checkAuth = (req, res, next) => {
-    const user = req.user; 
-    if (user && user.isAuthorized) {
-        next();
-    } else {
-        res.status(403).json({ message: "Unauthorized" });
-    }
-};
-
-const logger = (req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} - ${req.url}`);
-    next();
-};
-
-// Middleware xử lý lỗi
-const errorHandler = (err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: "Something went wrong!" });
-};
-
-router.use(logger);
-
-router.use(checkAuth);
-
-// Định nghĩa các route
 router.use("/", new CategoryRouter().route);
-router.use("/", new UserRouter().route);
 // router.use("/", new ProductRouter().route);
+router.use("/", authRouter);
+router.use("/", new VariantRouter().route);
+router.use("/", new OrderRouter().route);
+router.use("/", new OrderDetailRouter().route);
 
-router.use(errorHandler);
+const orderRouter = new OrderRouter();
+orderRouter.addRouter(
+  "post",
+  "/orders/save-order",
+  orderRouter.controller.saveOrder
+);
+orderRouter.addRouter(
+  "get",
+  "/orders/details/:orderId",
+  orderRouter.controller.getOrderDetailsByOrderId
+);
+
+router.use("/", orderRouter.route);
 
 export default router;
