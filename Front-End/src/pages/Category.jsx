@@ -85,12 +85,6 @@ const Category = () => {
     setCurrent(page);
   };
 
-  const [currentNew, setCurrentNew] = useState(3);
-  const onChanges = (page) => {
-    console.log(page);
-    setCurrentNew(page);
-  };
-
   return (
     <>
       <div className="banner">
