@@ -41,24 +41,7 @@ const CartProvider = ({ children }) => {
       JSON.stringify([...whistlists, newProduct])
     );
   };
-  const addNewWhistlist = (newProduct) => {
-    // Check if the product already exists in the whistlists array
-    const existingWhistlist = whistlists.find(
-      (product) => product._id === newProduct._id
-    );
-    if (existingWhistlist) {
-      return;
-    }
-
-    // If it doesn't, add the product to the whistlists array
-    setWhistlists([...whistlists, newProduct]);
-
-    // Update localStorage
-    localStorage.setItem(
-      "whistlists",
-      JSON.stringify([...whistlists, newProduct])
-    );
-  };
+  
   const removeWhistlist = (productId) => {
     const updatedWhistlists = whistlists.filter(
       (product) => product._id !== productId
