@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 
 dotenv.config();
-const { PORT, MONGO_URL } = process.env;
+const {  MONGO_URL } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -23,11 +23,11 @@ app.use(
 
 mongoose.connect(`${MONGO_URL}`).then(() => console.log("Database Connected!"));
 app.use("/api/v1", router);
-const port = 8000; // default port to listen
+const POST = 8000; // default POST to listen
 
 // start the Express server
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
+app.listen(POST, () => {
+  console.log(`server started at http://localhost:${POST}`);
 });
 
 ;
