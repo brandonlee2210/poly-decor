@@ -122,6 +122,7 @@ const Header = () => {
 
 					<div className="user">
 						{isLoggedIn ? (
+
 							<Dropdown
 								menu={{
 									items: loggedItems,

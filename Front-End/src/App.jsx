@@ -9,9 +9,12 @@ import { CartProvider } from "./CartContext";
 import ProductDetail from "./pages/ProductDetail";
 import LoginPage from "./pages/Login";
 import RegisterForm from "./pages/Register";
+import { LoginProvider } from "./LoginContext";
+import History from "./pages/History";
 
 function App() {
 	return (
+		<LoginProvider>
 		<CartProvider>
 			<BrowserRouter>
 				<Routes>
@@ -21,6 +24,7 @@ function App() {
 						<Route path="product/:id" element={<ProductDetail />} />
 						<Route path="cart" element={<Cart />} />
 						<Route path="checkout" element={<Checkout />} />
+						<Route path="history" element={<History />} />
 					</Route>
 					<Route path="login" element={<LoginPage />} />
 					<Route path="register" element={<RegisterForm />} />
@@ -28,6 +32,7 @@ function App() {
 				</Routes>
 			</BrowserRouter>
 		</CartProvider>
+		</LoginProvider>
 	);
 }
 
