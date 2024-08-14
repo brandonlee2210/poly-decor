@@ -8,6 +8,14 @@ const InfoUserForm = (props) => {
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    email: "",
+  });
+
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -80,6 +88,50 @@ const InfoUserForm = (props) => {
     setWard(e.target.value);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const validate = () => {
+    let tempErrors = {};
+
+    if (!formData.name) tempErrors.name = "Vui lòng nhập họ tên.";
+    if (!formData.phone) tempErrors.phone = "Vui lòng nhập số điện thoại.";
+    else if (!/^\d{10}$/.test(formData.phone))
+      tempErrors.phone = "Số điện thoại không hợp lệ.";
+    if (!province) tempErrors.province = "Vui lòng chọn Tỉnh/Thành phố.";
+    if (!district) tempErrors.district = "Vui lòng chọn Quận/Huyện.";
+    if (!ward) tempErrors.ward = "Vui lòng chọn Phường/Xã.";
+    if (!formData.address) tempErrors.address = "Vui lòng nhập địa chỉ.";
+    if (!formData.email) tempErrors.email = "Vui lòng nhập email.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      tempErrors.email = "Email không hợp lệ.";
+
+    setErrors(tempErrors);
+
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+      const userData = {
+        ...formData,
+        province,
+        district,
+        ward,
+      };
+      console.log("User Data:", userData);
+    } else {
+      console.log("Validation failed. Please check the input fields.");
+    }
+  };
+
   const display = props.type === "checkout" ? "none" : "flex";
   const backgroud = props.type === "checkout" ? "bg-[#FFF]" : "bg-[#DDB671]";
   const minHeight = props.type === "checkout" ? "" : "min-h-[750px]";
@@ -98,7 +150,10 @@ const InfoUserForm = (props) => {
       ""
     ) : (
       <div className="mt-6 text-center">
-        <button className="bg-brown-strong text-white px-8 py-4 font-bold rounded-lg shadow-md hover:bg-brown-dark transition-colors duration-300">
+        <button
+          type="submit"
+          className="bg-brown-strong text-white px-8 py-4 font-bold rounded-lg shadow-md hover:bg-brown-dark transition-colors duration-300"
+        >
           Xác nhận
         </button>
       </div>
@@ -107,6 +162,7 @@ const InfoUserForm = (props) => {
   return (
     <div className={`${minHeight} ${display} items-center justify-center `}>
       <form
+        onSubmit={handleSubmit}
         className={`max-w-3xl w-full ${backgroud} p-10 rounded-lg shadow-lg border border-gray-300 bg-cover`}
         style={{ backgroundImage: "url('/path-to-your-furniture-bg.jpg')" }}
       >
@@ -116,22 +172,28 @@ const InfoUserForm = (props) => {
           <div>
             <input
               type="text"
+              name="name"
               placeholder="Họ tên"
+              value={formData.name}
+              onChange={handleInputChange}
               className="outline-none border border-gray-300 rounded-lg px-4 py-3 w-full placeholder:text-gray-600 text-gray-800 focus:ring-2 focus:ring-brown-strong bg-opacity-75 shadow-sm transition-all duration-300"
             />
-            <span className="text-red-500 text-sm hidden">
-              Vui lòng nhập họ tên
-            </span>
+            {errors.name && (
+              <span className="text-red-500 text-sm">{errors.name}</span>
+            )}
           </div>
           <div>
             <input
               type="text"
+              name="phone"
               placeholder="Số điện thoại"
+              value={formData.phone}
+              onChange={handleInputChange}
               className="outline-none border border-gray-300 rounded-lg px-4 py-3 w-full placeholder:text-gray-600 text-gray-800 focus:ring-2 focus:ring-brown-strong bg-opacity-75 shadow-sm transition-all duration-300"
             />
-            <span className="text-red-500 text-sm hidden">
-              Vui lòng nhập số điện thoại
-            </span>
+            {errors.phone && (
+              <span className="text-red-500 text-sm">{errors.phone}</span>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-4">
@@ -149,6 +211,9 @@ const InfoUserForm = (props) => {
                 </option>
               ))}
             </select>
+            {errors.province && (
+              <span className="text-red-500 text-sm">{errors.province}</span>
+            )}
           </div>
           <div>
             <select
@@ -165,6 +230,9 @@ const InfoUserForm = (props) => {
                 </option>
               ))}
             </select>
+            {errors.district && (
+              <span className="text-red-500 text-sm">{errors.district}</span>
+            )}
           </div>
         </div>
         <div className="mt-4">
@@ -182,26 +250,35 @@ const InfoUserForm = (props) => {
               </option>
             ))}
           </select>
+          {errors.ward && (
+            <span className="text-red-500 text-sm">{errors.ward}</span>
+          )}
         </div>
         <div className="mt-4">
           <input
             type="text"
+            name="address"
             placeholder="Địa chỉ"
+            value={formData.address}
+            onChange={handleInputChange}
             className="outline-none border border-gray-300 rounded-lg px-4 py-3 w-full placeholder:text-gray-600 text-gray-800 focus:ring-2 focus:ring-brown-strong bg-opacity-75 shadow-sm transition-all duration-300"
           />
-          <span className="text-red-500 text-sm hidden">
-            Vui lòng nhập địa chỉ
-          </span>
+          {errors.address && (
+            <span className="text-red-500 text-sm">{errors.address}</span>
+          )}
         </div>
         <div className="mt-4">
           <input
             type="text"
+            name="email"
             placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
             className="outline-none border border-gray-300 rounded-lg px-4 py-3 w-full placeholder:text-gray-600 text-gray-800 focus:ring-2 focus:ring-brown-strong bg-opacity-75 shadow-sm transition-all duration-300"
           />
-          <span className="text-red-500 text-sm hidden">
-            Vui lòng nhập email
-          </span>
+          {errors.email && (
+            <span className="text-red-500 text-sm">{errors.email}</span>
+          )}
         </div>
         {btnConfirm}
       </form>

@@ -64,7 +64,7 @@ export const signup_post = async (req, res) => {
 
 export const login_post = async (req, res) => {
   const { username, password } = req.body;
-
+  
   try {
     const user = await User.login(username, password);
     const token = createToken(user._id);
