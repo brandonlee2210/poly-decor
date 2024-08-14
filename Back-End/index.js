@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 
 dotenv.config();
-const { PORT, MONGO_URL } = process.env;
+const {  MONGO_URL } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -153,8 +153,8 @@ app.post("/api/v1/send-email", (req, res) => {
 const port = 8000; // default port to listen
 
 // start the Express server
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
+app.listen(POST, () => {
+  console.log(`server started at http://localhost:${POST}`);
 });
 
 // app.use(function (req, res, next) {
