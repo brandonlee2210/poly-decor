@@ -22,7 +22,7 @@ const RegisterForm = () => {
           maxWidth: "450px",
           width: "100%",
           padding: "30px",
-          backgroundColor: "#fff",
+          backgroundColor: "#DDB671",
           borderRadius: "8px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
           textAlign: "center",
@@ -31,7 +31,7 @@ const RegisterForm = () => {
         <h2
           style={{
             marginBottom: "20px",
-            color: "#DDB671",
+            color: "rgb(75 29 9)",
             fontSize: "30px",
             fontWeight: "700",
           }}
@@ -51,6 +51,7 @@ const RegisterForm = () => {
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
             validateStatus="error"
+			style={{ color: "#fff" }}
           >
             <Input
               size="large"
@@ -120,7 +121,7 @@ const RegisterForm = () => {
                   size="large"
                   style={{
                     borderRadius: "4px",
-                    backgroundColor: "#DDB671",
+                    backgroundColor: "rgb(75 29 9)",
                     borderColor: "#DDB671",
                     fontWeight: "700",
                   }}
