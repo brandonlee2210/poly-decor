@@ -153,8 +153,8 @@ app.post("/api/v1/send-email", (req, res) => {
 const port = 8000; // default port to listen
 
 // start the Express server
-app.listen(POST, () => {
-  console.log(`server started at http://localhost:${POST}`);
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
 });
 
 // app.use(function (req, res, next) {
