@@ -92,7 +92,8 @@ const Checkout = () => {
     );
     setDistricts(data.data);
   };
-
+  console.log("districts", districts);
+  
   const handleGetWards = async (e) => {
     setDistrict(e.target.value);
     const { data } = await axios.get(
@@ -168,7 +169,8 @@ const Checkout = () => {
       },
       orderDetailsData,
     };
-
+   console.log(orderDataSave);
+   
     let res = await axios.post(
       "http://localhost:8000/api/v1/orders/save-order",
       orderDataSave
