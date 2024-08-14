@@ -27,9 +27,10 @@ function App() {
 							/>
 							<Route path="cart" element={<Cart />} />
 							<Route path="checkout" element={<Checkout />} />
+							<Route path="update-info" element={< InfoUserForm/>} />
 						</Route>
 						<Route path="login" element={<LoginPage />} />
-						<Route path="update-info" element={< InfoUserForm/>} />
+						
 						<Route path="register" element={<RegisterForm />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
