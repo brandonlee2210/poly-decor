@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 
 dotenv.config();
-const { PORT, MONGO_URL } = process.env;
+const {  MONGO_URL } = process.env;
 
 const app = express();
 app.use(express.json());

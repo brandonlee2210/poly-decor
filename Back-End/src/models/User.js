@@ -19,7 +19,28 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  fullName: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String,
+  },
+  address: {
+    province: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    commune: {
+      type: String,
+    },
+    street: {
+      type: String,
+    },
+  },
 });
+
 
 // fire a function before doc saved to db
 userSchema.pre("save", async function (next) {

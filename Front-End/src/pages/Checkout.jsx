@@ -15,6 +15,17 @@ const Checkout = () => {
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
   const [deliveryFee, setDeliveryFee] = useState("Chưa xác định");
+  const [email, setEmail] = useState("");
+
+  const totalQuantity = carts.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
+  const totalPrice = carts.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0
+  );
+  const finalPrice = totalPrice;
 
   const formatCurrencyVND = (amount) => {
     let formattedAmount = amount
@@ -81,8 +92,8 @@ const Checkout = () => {
     );
     setDistricts(data.data);
   };
-
-
+  console.log("districts", districts);
+  
   const handleGetWards = async (e) => {
     setDistrict(e.target.value);
     const { data } = await axios.get(
@@ -101,15 +112,34 @@ const Checkout = () => {
     setWard(e.target.value);
   };
 
+  const sendEmail = async (address) => {
+    // use axios
+    try {
+      const res = await axios.post("http://localhost:8000/api/v1/send-email", {
+        // your data
+        total: totalPrice,
+        address,
+        status: 1,
+        date: new Date(),
+      });
+      console.log("res", res);
+
+      if (res) {
+        return true;
+      } else {
+        return false;
+      }
+      // navigate("/thank-you");
+    } catch (error) {
+      return false;
+    }
+  };
+
   useEffect(() => {
     if (ward) {
       caculateDeliveryFee();
     }
   }, [ward]);
-
-  const totalQuantity = carts.length;
-  const totalPrice = carts.reduce((total, product) => total + product.price, 0);
-  const finalPrice = totalPrice;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,15 +169,21 @@ const Checkout = () => {
       },
       orderDetailsData,
     };
-
+   console.log(orderDataSave);
+   
     let res = await axios.post(
       "http://localhost:8000/api/v1/orders/save-order",
       orderDataSave
     );
 
-    console.log(res);
+    let emailResutl = await sendEmail(address);
 
-    navigate("/result-checkout");
+    // console.log(res);
+
+    if (emailResutl) {
+      navigate("/result-checkout");
+    }
+
     // Your code here to submit the form
   };
 
@@ -159,7 +195,10 @@ const Checkout = () => {
         onSubmit={handleSubmit}
       >
         <div>
-          <h2 className="text-2xl font-semibold text-brown-strong mb-3">
+          <h2
+            className="text-2xl font-semibold text-brown-strong mb-3"
+            onClick={sendEmail}
+          >
             Thông tin giao hàng
           </h2>
           <InfoUserForm
@@ -169,6 +208,8 @@ const Checkout = () => {
             districts={districts}
             handleGetWardCode={handleGetWardCode}
             wards={wards}
+            email={email}
+            type="checkout"
           />
         </div>
         <div>
