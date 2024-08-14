@@ -23,7 +23,7 @@ const LoginPage = () => {
         <div className="w-full bg-brown-light rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
-              Đăng nhập vào tài khoản của bạn
+              Login to your account
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
@@ -31,7 +31,7 @@ const LoginPage = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-white "
                 >
-                  Tên đăng nhập
+                  Username
                 </label>
                 <input
                   name="text"
@@ -47,7 +47,7 @@ const LoginPage = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Mật khẩu
+                  Password
                 </label>
                 <input
                   type="password"
@@ -63,17 +63,17 @@ const LoginPage = () => {
                 type="submit"
                 className="w-full text-white bg-brown-strong hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Đăng nhập
+                Login
               </button>
             </form>
             {isLoggedIn && <p>You are logged in!</p>}
             <p className="text-sm font-light text-gray-500">
-              Nếu bạn chưa có tài khoản thì{" "}
+              Don't have an account?{" "}
               <a
                 href="/register"
                 className="font-medium text-primary-600 hover:underline"
               >
-                đăng kí
+                Resgister
               </a>
             </p>
           </div>

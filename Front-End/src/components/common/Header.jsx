@@ -3,7 +3,7 @@ import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import { Dropdown } from "antd";
 import { CartContext } from "../../CartContext";
-import { LoginContext } from "../../LoginContext";
+import { LoginContext } from "../../LoginContext.jsx";
 import axios from "axios";
 
 const loggedItems = [
@@ -36,8 +36,8 @@ const Header = () => {
 
 	const { isLoggedIn, login, logout } = useContext(LoginContext);
 
-	console.log("isLoggedIn", isLoggedIn);
-
+  console.log("isLoggedIn", isLoggedIn);
+  
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
@@ -122,7 +122,6 @@ const Header = () => {
 
 					<div className="user">
 						{isLoggedIn ? (
-
 							<Dropdown
 								menu={{
 									items: loggedItems,
