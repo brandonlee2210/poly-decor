@@ -10,6 +10,7 @@ import ProductDetail from "./pages/ProductDetail";
 import LoginPage from "./pages/Login";
 import RegisterForm from "./pages/Register";
 import { LoginProvider } from "./LoginContext.jsx";
+import InfoUserForm from "./components/common/InfoUserForm.jsx";
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 							<Route path="checkout" element={<Checkout />} />
 						</Route>
 						<Route path="login" element={<LoginPage />} />
+						<Route path="update-info" element={< InfoUserForm/>} />
 						<Route path="register" element={<RegisterForm />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
