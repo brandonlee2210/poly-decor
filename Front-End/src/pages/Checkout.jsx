@@ -207,6 +207,7 @@ const Checkout = () => {
             handleGetWardCode={handleGetWardCode}
             wards={wards}
             email={email}
+            type="checkout"
           />
         </div>
         <div>
