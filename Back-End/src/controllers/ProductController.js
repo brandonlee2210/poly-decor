@@ -1,9 +1,9 @@
-import BaseController from './BaseController';
-import Product from '../models/Product';
+import BaseController from "./BaseController.js";
+import Product from "../models/Product.js";
 // create class product with CRUD
 
 export default class ProductController extends BaseController {
-    constructor() {
-        super(Product);
-    }
+  constructor() {
+    super(Product);
+  }
 }
