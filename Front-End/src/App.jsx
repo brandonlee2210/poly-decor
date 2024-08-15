@@ -10,6 +10,7 @@ import ProductDetail from "./pages/ProductDetail";
 import LoginPage from "./pages/Login";
 import RegisterForm from "./pages/Register";
 import { LoginProvider } from "./LoginContext";
+import SearchResult from "./pages/SearchResult";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="category/:id" element={<Category />} />
               <Route path="product/:id" element={<ProductDetail />} />
+              <Route path="search/:keyword" element={<SearchResult />} />
               <Route path="cart" element={<Cart />} />
               <Route path="checkout" element={<Checkout />} />
             </Route>
