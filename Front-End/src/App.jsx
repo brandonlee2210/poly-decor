@@ -11,6 +11,7 @@ import LoginPage from "./pages/Login";
 import RegisterForm from "./pages/Register";
 import { LoginProvider } from "./LoginContext";
 import SearchResult from "./pages/SearchResult";
+import History from "./pages/HistoryDetail";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="search/:keyword" element={<SearchResult />} />
               <Route path="cart" element={<Cart />} />
               <Route path="checkout" element={<Checkout />} />
+              <Route path="history/:id" element={<History />} />
             </Route>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterForm />} />
