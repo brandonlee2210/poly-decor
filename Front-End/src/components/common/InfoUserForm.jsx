@@ -31,8 +31,6 @@ const InfoUserForm = (props) => {
         const nameWard = wards.find((w)=>w.WardCode == ward)?.WardName
         console.log(provinces);
 
-        console.log("namePro", nameWard);
-
         form.setFieldsValue({
           fullName: user.fullName,
           phoneNumber: user.phoneNumber,
