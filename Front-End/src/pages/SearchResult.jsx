@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ProductItem from "../components/common/ProductItem";
 import axios from "axios";
 import { Pagination, Slider, Select, Button } from "antd";
+import { formatCurrency } from "../utils";
+import { getProducts } from "../api/api";
 
 const { Option } = Select;
 
@@ -28,21 +30,10 @@ const SearchResult = () => {
   };
 
   useEffect(() => {
-    const fetchVariants = async () => {
-      const response = await axios.get(
-        "http://localhost:8000/api/v1/orders/variants/Sofa"
-      );
-      setProducts(response.data);
-    };
-    fetchVariants();
-  }, []);
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
+    getProducts().then((data) => {
+      setProducts(data.data);
     });
-  };
+  }, []);
 
   return (
     <div className="container2 mt-16">
