@@ -11,6 +11,7 @@ import LoginPage from "./pages/Login";
 import RegisterForm from "./pages/Register";
 import { LoginProvider } from "./LoginContext.jsx";
 import InfoUserForm from "./components/common/InfoUserForm.jsx";
+import { useState } from "react";
 
 function App() {
 	return (
@@ -27,7 +28,7 @@ function App() {
 							/>
 							<Route path="cart" element={<Cart />} />
 							<Route path="checkout" element={<Checkout />} />
-							<Route path="update-info" element={< InfoUserForm/>} />
+							<Route path="update-info" element={< InfoUserForm  />} />
 						</Route>
 						<Route path="login" element={<LoginPage />} />
 						
