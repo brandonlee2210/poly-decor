@@ -82,6 +82,7 @@ export const logout_get = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.redirect("/");
 };
+
 export const get_users_id = async (req, res) => {
   const userId = req.params.id;
   try {
@@ -105,7 +106,7 @@ export const update_user = async (req, res) => {
 
   try {
     console.log("Updating user with ID:", updates);
-    
+
     const user = await User.findByIdAndUpdate(userId, updates, {
       new: true,
       runValidators: true,

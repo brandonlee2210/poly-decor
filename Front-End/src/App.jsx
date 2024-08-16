@@ -1,17 +1,21 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Cart from "./pages/Cart";
 import ClientLayout from "./pages/layouts/ClientLayout";
-import NotFound from "./pages/404";
-import Category from "./pages/Category";
-import Checkout from "./pages/Checkout";
-import { CartProvider } from "./CartContext";
 import ProductDetail from "./pages/ProductDetail";
-import LoginPage from "./pages/Login";
-import RegisterForm from "./pages/Register";
-import { LoginProvider } from "./LoginContext";
-import SearchResult from "./pages/SearchResult";
-import History from "./pages/HistoryDetail";
+import Category from "./pages/Category";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
+import Checkout from "./pages/Checkout";
+import UpdateInfo from "./pages/UpdateInfo";
+import History from "./pages/History";
+import HistoryDetail from "./pages/HistoryDetail";
+import ResultCheckout from "./pages/ResultCheckout";
+import { CartProvider } from "./CartContext.jsx";
+import { LoginProvider } from "./LoginContext.jsx";
+import NotFound from "./pages/404.jsx";
+import SearchResult from "./pages/SearchResult.jsx";
 
 function App() {
   return (
@@ -21,15 +25,19 @@ function App() {
           <Routes>
             <Route path="/" element={<ClientLayout />}>
               <Route index element={<Home />} />
-              <Route path="category/:id" element={<Category />} />
               <Route path="product/:id" element={<ProductDetail />} />
+              <Route path="category/:name" element={<Category />} />
               <Route path="search/:keyword" element={<SearchResult />} />
               <Route path="cart" element={<Cart />} />
               <Route path="checkout" element={<Checkout />} />
-              <Route path="history/:id" element={<History />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="result-checkout" element={<ResultCheckout />} />
+              <Route path="update-info" element={<UpdateInfo />} />
+              <Route path="history" element={<History />} />
+              <Route path="history/:id" element={<HistoryDetail />} />
             </Route>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterForm />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
