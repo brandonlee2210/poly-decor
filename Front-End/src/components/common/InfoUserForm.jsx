@@ -6,8 +6,6 @@ import React, { useEffect, useState } from "react";
 const { Option } = Select;
 
 const InfoUserForm = (props) => {
-  console.log("Props:", props);
-
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -15,27 +13,45 @@ const InfoUserForm = (props) => {
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
   const [street, setStreet] = useState("");
-  const [datauser, setDataUser] = useState({});
   const id = localStorage.getItem("id");
+
   const [form] = Form.useForm();
 
-
-
   useEffect(() => {
-    if (datauser) {
-      if (typeof props.onDataChange === "function") {
-        console.log("province", province);
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8000/api/v1/auth/${id}`);
+        const user = res.data.user;
+        const namePro = provinces.find(
+          (x) => x.ProvinceID == province
+        )?.ProvinceName;
+        const nameDis = districts.find(
+          (f) => f.DistrictID == district
+        )?.DistrictName;
+        form.setFieldsValue({
+          fullName: user.fullName,
+          phoneNumber: user.phoneNumber,
+          email: user.email,
+          province: namePro || user.province,
+          district: nameDis || user.district,
+          ward: user.ward,
+          street: user.street,
+        });
 
-        let address = `Tỉnh ${
-          provinces.find((x) => x.ProvinceID == province)?.ProvinceName
-        }, ${districts.find((x) => x.DistrictID == district)?.DistrictName}, ${
-          wards.find((x) => x.WardCode == ward)?.WardName
-        },${street}`;
-        console.log("Address:", address);
-        props.onDataChange(address);
+        setProvince(user.province);
+        setDistrict(user.district);
+        setWard(user.ward)
+        
+        setStreet(user.street);
+      } catch (error) {
+        console.log("Failed to fetch data:", error);
       }
-    }
-  }, [datauser]);
+    };
+    fetchData();
+  }, [form, id,provinces, districts,wards,province,district,ward]);
+  console.log(province);
+  
+  // Fetch provinces
   useEffect(() => {
     const getProvinces = async () => {
       try {
@@ -47,13 +63,11 @@ const InfoUserForm = (props) => {
             },
           }
         );
-
         setProvinces(data.data);
       } catch (error) {
         console.error("Failed to fetch provinces:", error);
       }
     };
-
     getProvinces();
   }, []);
 
@@ -70,12 +84,7 @@ const InfoUserForm = (props) => {
               },
             }
           );
-          const nameDistrict = data.data.find(
-            (x) => x.DistrictID == district
-          )?.DistrictName;
-          console.log(nameDistrict);
-
-          setDistricts(data.data || nameDistrict);
+          setDistricts(data.data);
         } catch (error) {
           console.error("Failed to fetch districts:", error);
         }
@@ -84,7 +93,6 @@ const InfoUserForm = (props) => {
     getDistricts();
   }, [province]);
 
-  // Fetch wards when district changes
   useEffect(() => {
     const getWards = async () => {
       if (district) {
@@ -106,6 +114,23 @@ const InfoUserForm = (props) => {
     };
     getWards();
   }, [district]);
+
+  useEffect(() => {
+    if (typeof props.onDataChange === "function") {
+
+      if (province && district && ward) {
+        let address = `Tỉnh ${province}, ${district}, ${ward}, ${street}` ||`Tỉnh ${
+          provinces.find((x) => x.ProvinceID == province)?.ProvinceName
+        }, ${districts.find((x) => x.DistrictID == district)?.DistrictName}, ${
+          wards.find((x) => x.WardCode == ward)?.WardName
+        },${street}` 
+        console.log("address", address);
+        
+        props.onDataChange(address);
+      }
+    }
+  }, [province, district, ward, props, provinces, districts, wards]);
+
   const handleGetDistricts = async (provinceId) => {
     setProvince(provinceId);
     setDistrict(""); // Reset district and ward when province changes
@@ -121,6 +146,7 @@ const InfoUserForm = (props) => {
             },
           }
         );
+        console.log(data.data);
 
         setDistricts(data.data);
       } catch (error) {
@@ -161,52 +187,16 @@ const InfoUserForm = (props) => {
 
       if (res.status === 200) {
         message.success("Cập nhật thông tin thành công");
+        if (typeof props.onDataChange === "function") {
+          props.onDataChange(values);
+        }
       }
     } catch (error) {
       console.log("Failed to submit the form:", error);
       message.error("Cập nhật thông tin thất bại");
     }
   };
-  console.log();
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`http://localhost:8000/api/v1/auth/${id}`);
-        const user = res.data.user;
-        setDataUser(user);
-        // if (typeof props.onDataChange === "function") {
-        //   props.onDataChange(user);
-        // }
-        // props.onChangDataUser(res.data.user)
-        const nameProvince =
-          provinces.find((prov) => prov.ProvinceID == user?.province);
-        const nameDistrict =
-          districts && districts.find((dis) => dis.DistrictID == user?.district);
-        console.log("nameProvince", user.province);
-        console.log("nameProvince", provinces);
 
-        form.setFieldsValue({
-          fullName: user.fullName,
-          phoneNumber: user.phoneNumber,
-          email: user.email,
-          province: nameProvince?.ProvinceName,
-          district: nameDistrict?.DistrictName,
-          ward: user.ward,
-          street: user.street,
-        });
-
-        setProvince(user.province);
-        setDistrict(user.district);
-        setWard(user.ward);
-        setStreet(user.street);
-      } catch (error) {
-        console.log("Failed to fetch data:", error);
-      }
-    };
-    fetchData();
-  }, [form, id, props,provinces,districts]);
-  console.log(street);
   const display = props.type === "checkout" ? "none" : "flex";
   const backgroud = props.type === "checkout" ? "bg-[#FFF]" : "bg-[#DDB671]";
   const minHeight = props.type === "checkout" ? "" : "min-h-[750px]";
@@ -228,7 +218,7 @@ const InfoUserForm = (props) => {
         <Button
           type="primary"
           htmlType="submit"
-          className="bg-brown-strong text-white px-8 py-7 font-bold rounded-lg shadow-md hover:bg-brown-dark transition-colors duration-300"
+          className="bg-brown-strong text-white px-8 py-4 font-bold rounded-lg shadow-md hover:bg-brown-dark transition-colors duration-300"
         >
           Xác nhận
         </Button>
@@ -283,7 +273,7 @@ const InfoUserForm = (props) => {
             <Select
               onChange={handleGetDistricts}
               placeholder="Tỉnh/Thành phố"
-              className="w-full border border-gray-300 rounded-lg  focus:ring-2 focus:ring-brown-strong"
+              className="w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown-strong"
               style={{ height: "48px" }}
             >
               {provinces.map((prov) => (
@@ -298,11 +288,11 @@ const InfoUserForm = (props) => {
             rules={[{ required: true, message: "Vui lòng chọn Quận/Huyện." }]}
           >
             <Select
-              onChange={(value) => setDistrict(value)}
+              onChange={handleGetWards}
               placeholder="Quận/Huyện"
               className="w-full border border-gray-300 rounded-lg  focus:ring-2 focus:ring-brown-strong"
-              style={{ height: "48px" }}
               disabled={!province}
+              style={{ height: "48px" }}
             >
               {districts.map((dist) => (
                 <Option key={dist.DistrictID} value={dist.DistrictID}>
@@ -321,9 +311,9 @@ const InfoUserForm = (props) => {
             <Select
               onChange={(value) => setWard(value)}
               placeholder="Phường/Xã"
-              className="w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown-strong"
-              style={{ height: "48px" }}
+              className="w-full border border-gray-300 rounded-lg  focus:ring-2 focus:ring-brown-strong"
               disabled={!district}
+              style={{ height: "48px" }}
             >
               {wards.map((ward) => (
                 <Option key={ward.WardCode} value={ward.WardCode}>
