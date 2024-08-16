@@ -9,6 +9,7 @@ import VariantProductRouter from "./variantProduct.js";
 import moment from "moment";
 import querystring from "qs";
 import crypto from "crypto";
+import CommentRouter from "./comment.js";
 
 let config = {
   vnp_TmnCode: "HS7UZ3PF",
@@ -27,7 +28,7 @@ router.use("/", new VariantRouter().route);
 router.use("/", new OrderRouter().route);
 router.use("/", new OrderDetailRouter().route);
 router.use("/", new VariantProductRouter().route);
-
+router.use("/", new CommentRouter().route);
 const orderRouter = new OrderRouter();
 orderRouter.addRouter(
   "post",
