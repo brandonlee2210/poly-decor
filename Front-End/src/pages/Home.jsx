@@ -17,183 +17,203 @@ import { Link } from "react-router-dom";
 import Feedback from "../components/common/Feedback";
 import Partner from "../components/home/Partner";
 import ListStaff from "../components/common/ListStaff";
+import axios from "axios";
+
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
-	const productsCate1 = [
-		{
-			id: 1,
-			image: categoryImage1,
-			name: "Bộ Sofa Tân Cổ Điển SF71-123",
-			price: "173.000.000 ₫",
-			initPrice: "193.000.000 ₫",
-		},
-		{
-			id: 2,
-			image: categoryImage1,
-			name: "Bộ Sofa Tân Cổ Điển SF71-123",
-			price: "173.000.000 ₫",
-			initPrice: "193.000.000 ₫",
-		},
-		{
-			id: 3,
-			image: categoryImage1,
-			name: "Bộ Sofa Tân Cổ Điển SF71-123",
-			price: "173.000.000 ₫",
-			initPrice: "193.000.000 ₫",
-		},
-		{
-			id: 4,
-			image: categoryImage1,
-			name: "Bộ Sofa Tân Cổ Điển SF71-123",
-			price: "173.000.000 ₫",
-			initPrice: "193.000.000 ₫",
-		},
-	];
+  const [categories, setCategories] = useState([]);
 
-	const productsCate2 = [
-		{
-			id: 1,
-			image: categoryImage2,
-			name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
-			price: "26.600.000 ₫",
-			initPrice: "29.600.000 ₫",
-		},
-		{
-			id: 2,
-			image: categoryImage2,
-			name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
-			price: "26.600.000 ₫",
-			initPrice: "29.600.000 ₫",
-		},
-		{
-			id: 3,
-			image: categoryImage2,
-			name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
-			price: "26.600.000 ₫",
-			initPrice: "29.600.000 ₫",
-		},
-		{
-			id: 4,
-			image: categoryImage2,
-			name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
-			price: "26.600.000 ₫",
-			initPrice: "29.600.000 ₫",
-		},
-	];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/v1/categories"
+        );
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-	const productsCate3 = [
-		{
-			id: 1,
-			image: categoryImage3,
-			name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
-			price: "99.000.000 ₫",
-			initPrice: "120.000.000 ₫",
-		},
-		{
-			id: 2,
-			image: categoryImage3,
-			name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
-			price: "99.000.000 ₫",
-			initPrice: "120.000.000 ₫",
-		},
-		{
-			id: 3,
-			image: categoryImage3,
-			name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
-			price: "99.000.000 ₫",
-			initPrice: "120.000.000 ₫",
-		},
-		{
-			id: 4,
-			image: categoryImage3,
-			name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
-			price: "99.000.000 ₫",
-			initPrice: "120.000.000 ₫",
-		},
-	];
+    fetchCategories();
+  }, []);
 
-	const productsCate4 = [
-		{
-			id: 1,
-			image: categoryImage4,
-			name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
-			price: "19.600.000 ₫",
-			initPrice: "24.600.000 ₫",
-		},
-		{
-			id: 2,
-			image: categoryImage4,
-			name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
-			price: "19.600.000 ₫",
-			initPrice: "24.600.000 ₫",
-		},
-		{
-			id: 3,
-			image: categoryImage4,
-			name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
-			price: "19.600.000 ₫",
-			initPrice: "24.600.000 ₫",
-		},
-		{
-			id: 4,
-			image: categoryImage4,
-			name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
-			price: "19.600.000 ₫",
-			initPrice: "24.600.000 ₫",
-		},
-	];
-	return (
-		<>
-			<Slider />
-			<div className="container">
-				<ListCategory />
-				<SaleProducts />
-				<HomeCategory
-					title="Nội thất tân cổ điển"
-					href="category/1"
-					reverst={false}
-					banner={categoryBanner1}
-					products={productsCate1}
-				/>
-				<Link to={"/"} className="py-[50px] block">
-					<img src={homeSubBanner1} alt="home sub banner" />
-				</Link>
+  const productsCate1 = [
+    {
+      id: 1,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2023/10/SF71-123.jpg",
+      name: "Bộ Sofa Tân Cổ Điển SF71-123",
+      price: 173000000,
+    },
+    {
+      id: 2,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2023/10/SF71-123.jpg",
+      name: "Bộ Sofa Tân Cổ Điển SF71-123",
+      price: 173000000,
+    },
+    {
+      id: 3,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2023/10/SF71-123.jpg",
+      name: "Bộ Sofa Tân Cổ Điển SF71-123",
+      price: 173000000,
+    },
+    {
+      id: 4,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2023/10/SF71-123.jpg",
+      name: "Bộ Sofa Tân Cổ Điển SF71-123",
+      price: 173000000,
+    },
+  ];
 
-				<HomeCategory
-					title="Nội thất phòng khách"
-					href="category/1"
-					reverst={true}
-					banner={categoryBanner2}
-					products={productsCate2}
-				/>
-				<Link to={"/"} className="py-[50px] block">
-					<img src={homeSubBanner2} alt="home sub banner" />
-				</Link>
+  const productsCate2 = [
+    {
+      id: 1,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2024/05/GO-MUN-NGUA.jpg",
+      name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
+      price: 2660000,
+    },
+    {
+      id: 2,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2024/05/GO-MUN-NGUA.jpg",
+      name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
+      price: 2660000,
+    },
+    {
+      id: 3,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2024/05/GO-MUN-NGUA.jpg",
+      name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
+      price: 2660000,
+    },
+    {
+      id: 4,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2024/05/GO-MUN-NGUA.jpg",
+      name: "Bộ Sofa 3 Băng Góc Phải SF672-Nano1-28",
+      price: 2660000,
+    },
+  ];
 
-				<HomeCategory
-					title="Nội thất phòng ngủ"
-					href="category/1"
-					reverst={false}
-					banner={categoryBanner3}
-					products={productsCate3}
-				/>
-				<Link to={"/"} className="py-[50px] block">
-					<img src={homeSubBanner3} alt="home sub banner" />
-				</Link>
+  const productsCate3 = [
+    {
+      id: 1,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/bo-phong-ngu-tan-co-dien-3028BG-2.jpg",
+      name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
+      price: 99000000,
+    },
+    {
+      id: 2,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/bo-phong-ngu-tan-co-dien-3028BG-2.jpg",
+      name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
+      price: 99000000,
+    },
+    {
+      id: 3,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/bo-phong-ngu-tan-co-dien-3028BG-2.jpg",
+      name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
+      price: 99000000,
+    },
+    {
+      id: 4,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/bo-phong-ngu-tan-co-dien-3028BG-2.jpg",
+      name: "Bộ Phòng Ngủ 1M8 Cổ Điển Trắng Sứ Cao Cấp GI3028-18",
+      price: 99000000,
+    },
+  ];
 
-				<HomeCategory
-					title="Nội thất phòng ăn"
-					href="category/1"
-					reverst={true}
-					banner={categoryBanner4}
-					products={productsCate4}
-				/>
-				<Feedback />
-				<Partner />
-				<ListStaff />
-			</div>
-		</>
-	);
+  const productsCate4 = [
+    {
+      id: 1,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2022/04/ban-an-tron-mat-da-nhap-khau-chau-au-bh8309.jpg",
+      name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
+      price: 1960000,
+    },
+    {
+      id: 2,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2022/04/ban-an-tron-mat-da-nhap-khau-chau-au-bh8309.jpg",
+      name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
+      price: 1960000,
+    },
+    {
+      id: 3,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2022/04/ban-an-tron-mat-da-nhap-khau-chau-au-bh8309.jpg",
+      name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
+      price: 1960000,
+    },
+    {
+      id: 4,
+      image:
+        "https://noithatgiakhanh.com/wp-content/uploads/2022/04/ban-an-tron-mat-da-nhap-khau-chau-au-bh8309.jpg",
+      name: "Bàn Ăn Gỗ Sồi Nhập Khẩu Phong Cách Tân Cổ Điển BH8311",
+      price: 1960000,
+    },
+  ];
+  return (
+    <>
+      <Slider />
+      <div className="container">
+        <ListCategory />
+        <SaleProducts />
+        <HomeCategory
+          title="Nội thất tân cổ điển"
+          href="category/1"
+          reverst={false}
+          banner={categoryBanner1}
+          products={productsCate1}
+        />
+        <Link to={"/"} className="py-[50px] block">
+          <img src={homeSubBanner1} alt="home sub banner" />
+        </Link>
+
+        <HomeCategory
+          title="Nội thất phòng khách"
+          href="category/1"
+          reverst={true}
+          banner={categoryBanner2}
+          products={productsCate2}
+        />
+        <Link to={"/"} className="py-[50px] block">
+          <img src={homeSubBanner2} alt="home sub banner" />
+        </Link>
+
+        <HomeCategory
+          title="Nội thất phòng ngủ"
+          href="category/1"
+          reverst={false}
+          banner={categoryBanner3}
+          products={productsCate3}
+        />
+        <Link to={"/"} className="py-[50px] block">
+          <img src={homeSubBanner3} alt="home sub banner" />
+        </Link>
+
+        <HomeCategory
+          title="Nội thất phòng ăn"
+          href="category/1"
+          reverst={true}
+          banner={categoryBanner4}
+          products={productsCate4}
+        />
+        <Feedback />
+        <Partner />
+        <ListStaff />
+      </div>
+    </>
+  );
 };
 
 export default Home;

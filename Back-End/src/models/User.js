@@ -19,6 +19,30 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  email: {
+    type: String,
+    required: false,
+    unique: false,
+  },
+  phoneNumber: {
+    type: String,
+  },
+  fullName: {
+    type: String,
+  },
+
+  province: {
+    type: String,
+  },
+  district: {
+    type: String,
+  },
+  ward: {
+    type: String,
+  },
+  street: {
+    type: String,
+  },
 });
 
 // fire a function before doc saved to db

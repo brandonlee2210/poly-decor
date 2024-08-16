@@ -30,22 +30,6 @@ export const addNewCategory = async (data) => {
   // You may want to handle the error differently depending on your application's requirements
 };
 
-export const addCategory = async (data) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/categories",
-      data
-    );
-
-    console.log("response", response);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-  return null;
-}
-
 export const deleteCategory = async (id) => {
   try {
     const response = await axios.delete(
@@ -100,6 +84,22 @@ export const getProductById = async (id) => {
 
     return response.data;
 
+    // You can modify the return statement based on your application's requirements,
+    // such as returning a specific piece of data or transforming the response data
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+  // You may want to handle the error differently depending on your application's requirements
+};
+
+export const getOrderDetails = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/v1/orders/${id}`
+    );
+    console.log("response", response);
+    return response.data;
     // You can modify the return statement based on your application's requirements,
     // such as returning a specific piece of data or transforming the response data
   } catch (error) {

@@ -10,13 +10,13 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  orderDate: {
-    type: Date,
-    required: true,
+  fullname: {
+    type: String,
+    default: "gia bảo",
   },
-  orderDetailID: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+  phoneNumber: {
+    type: String,
+    default: "0364350578",
   },
   userID: {
     type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +24,18 @@ const orderSchema = new mongoose.Schema({
   },
   paymentID: {
     type: mongoose.Schema.Types.ObjectId,
+  },
+  status: {
+    type: Number,
+    default: 1,
+  },
+  orderDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+  address: {
+    type: String,
     required: true,
   },
 });
