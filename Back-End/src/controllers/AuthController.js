@@ -33,6 +33,8 @@ const handleErrors = (err) => {
     errors.password = "Password is not correct";
     return errors;
   }
+
+  
 };
 
 const maxAge = 3 * 60 * 60 * 24;
