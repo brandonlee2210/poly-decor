@@ -28,9 +28,6 @@ const InfoUserForm = (props) => {
         const nameDis = districts.find(
           (f) => f.DistrictID == district
         )?.DistrictName;
-        const nameWard = wards.find((w)=>w.WardCode == ward)?.WardName
-        console.log(provinces);
-
         form.setFieldsValue({
           fullName: user.fullName,
           phoneNumber: user.phoneNumber,
