@@ -16,6 +16,10 @@ const Checkout = () => {
   const [ward, setWard] = useState("");
   const [deliveryFee, setDeliveryFee] = useState("Chưa xác định");
   const [email, setEmail] = useState("");
+const [dataAddress, setDataAddress] = useState({}) // state hứng dữ liệu từ InfoUserForm gửi lên
+
+
+
 
   const totalQuantity = carts.reduce(
     (total, product) => total + product.quantity,
@@ -142,7 +146,8 @@ const Checkout = () => {
     }, ${districts.find((x) => x.DistrictID == district)?.DistrictName}, ${
       wards.find((x) => x.WardCode == ward)?.WardName
     }`;
-
+   console.log("address",address);
+   
     let orderDetailsData = carts.map((x) => {
       return {
         ...x,
@@ -156,7 +161,7 @@ const Checkout = () => {
 
     let orderDataSave = {
       orderData: {
-        address: address,
+        address: dataAddress,
         total: totalPrice + deliveryFee,
         userID: "60d5ec49f8d2c72b8c8e4b8b",
       },
@@ -179,7 +184,12 @@ const Checkout = () => {
 
     // Your code here to submit the form
   };
+  const handleDataChange = (data) => {
+    console.log("data", data);
+    setDataAddress(data)
 
+  }
+  console.log("dataUser",dataAddress); 
   return (
     <div className="mt-14 container2">
       <form
@@ -195,14 +205,15 @@ const Checkout = () => {
             Thông tin giao hàng
           </h2>
           <InfoUserForm
-            handleGetDistricts={handleGetDistricts}
-            provinces={provinces}
-            handleGetWards={handleGetWards}
-            districts={districts}
-            handleGetWardCode={handleGetWardCode}
-            wards={wards}
-            email={email}
+            // handleGetDistricts={handleGetDistricts}
+            // provinces={provinces}
+            // handleGetWards={handleGetWards}
+            // districts={districts}
+            // handleGetWardCode={handleGetWardCode}
+            // wards={wards}
+            // email={email}
             type="checkout"
+            onDataChange={handleDataChange}
           />
         </div>
         <div>
