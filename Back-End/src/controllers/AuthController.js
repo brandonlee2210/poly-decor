@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -8,19 +7,22 @@ const handleErrors = (err) => {
 
   // duplicate username error
   if (err.code === 11000) {
-    errors.username = "That username is already registered";
+    errors.username = "that username is already registered";
     return errors;
   }
 
   // validation errors
   if (err.message.includes("user validation failed")) {
+    // console.log(err);
     Object.values(err.errors).forEach(({ properties }) => {
+      // console.log(val);
+      // console.log(properties);
       errors[properties.path] = properties.message;
     });
     return errors;
   }
 
-  // incorrect username
+  // incorrectusername
   if (err.message === "incorrect username") {
     errors.username = "That username is not registered";
     return errors;
@@ -80,19 +82,36 @@ export const logout_get = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.redirect("/");
 };
+export const get_users_id = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log("User not found for ID:", userId);
+      return res.status(404).json({ error: "User not found" });
+    }
+    console.log("User found:", user);
 
+    res.status(200).json({ user });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ error: errors });
+  }
+};
 // Update user information
 export const update_user = async (req, res) => {
-  const userId = req.params.id; // Get the user ID from URL parameters
-  const updates = req.body; // Get the updates from the request body
+  const userId = req.params.id;
+  const updates = req.body;
 
   try {
+    console.log("Updating user with ID:", updates);
+    
     const user = await User.findByIdAndUpdate(userId, updates, {
-      new: true, // Return the updated document
-      runValidators: true, // Run schema validators on the update
+      new: true,
+      runValidators: true,
     });
 
-    console.log("Updated User:", user);
+    // console.log("Updated User:", user);
 
     if (!user) {
       console.log("User not found for ID:", userId);
