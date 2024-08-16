@@ -16,10 +16,8 @@ import { LoginProvider } from "./LoginContext.jsx";
 import NotFound from "./pages/404.jsx";
 import SearchResult from "./pages/SearchResult.jsx";
 import InfoUserForm from "./components/common/InfoUserForm.jsx";
-import { useState } from "react";
 
 function App() {
-
   return (
     <LoginProvider>
       <CartProvider>
@@ -46,7 +44,6 @@ function App() {
       </CartProvider>
     </LoginProvider>
   );
-
 }
 
 export default App;

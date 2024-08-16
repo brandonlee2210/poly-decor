@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 
 dotenv.config();
-const {  MONGO_URL } = process.env;
+const { MONGO_URL } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -35,7 +35,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-mongoose.connect(`${MONGO_URL}`).then(() => console.log("Database Connected!"));
+mongoose
+  .connect(`${MONGO_URL}`)
+  .then(() => console.log("Database Connected!"))
+  .catch((err) => console.log(err));
 app.use("/api/v1", router);
 app.post("/api/v1/send-email", (req, res) => {
   // Read the HTML template
