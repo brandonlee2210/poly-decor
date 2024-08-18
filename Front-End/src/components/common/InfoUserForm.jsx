@@ -315,7 +315,7 @@ const InfoUserForm = (props) => {
               disabled={!district}
               style={{ height: "48px" }}
             >
-              {wards.map((ward) => (
+              {wards?.map((ward) => (
                 <Option key={ward.WardCode} value={ward.WardCode}>
                   {ward.WardName}
                 </Option>
