@@ -101,7 +101,7 @@ export const get_users_id = async (req, res) => {
     res.status(400).json({ error: errors });
   }
 };
-// Update user information
+
 export const update_user = async (req, res) => {
   const userId = req.params.id;
   const updates = req.body;

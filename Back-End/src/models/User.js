@@ -21,8 +21,6 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: false,
-    unique: false,
   },
   phoneNumber: {
     type: String,
@@ -60,6 +58,7 @@ userSchema.pre("save", async function (next) {
 
   next();
 });
+
 
 // static method to login user
 userSchema.statics.login = async function (username, password) {
