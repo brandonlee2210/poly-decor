@@ -24,12 +24,6 @@ const InfoUserForm = (props) => {
 					`http://localhost:8000/api/v1/auth/${id}`
 				);
 				const user = res.data.user;
-
-				setProvince(user.province);
-				setDistrict(user.district);
-				setWard(user.ward);
-
-				setStreet(user.street);
 				const namePro = provinces.find(
 					(x) => x.ProvinceID == province
 				)?.ProvinceName;
@@ -40,11 +34,17 @@ const InfoUserForm = (props) => {
 					fullName: user.fullName,
 					phoneNumber: user.phoneNumber,
 					email: user.email,
-					province: namePro.ProvinceName || user.province,
-					district: nameDis.DistrictName || user.district,
+					province: namePro || user.province,
+					district: nameDis || user.district,
 					ward: user.ward,
 					street: user.street,
 				});
+
+				setProvince(user.province);
+				setDistrict(user.district);
+				setWard(user.ward);
+
+				setStreet(user.street);
 			} catch (error) {
 				console.log("Failed to fetch data:", error);
 			}
@@ -120,19 +120,17 @@ const InfoUserForm = (props) => {
 	useEffect(() => {
 		if (typeof props.onDataChange === "function") {
 			if (province && district && ward) {
-				const provinceName = provinces.find(
-					(x) => x.ProvinceID == province
-				)?.ProvinceName;
-				const districtName = districts.find(
-					(x) => x.DistrictID == district
-				)?.DistrictName;
-				const wardName = wards.find(
-					(x) => x.WardCode == ward
-				)?.WardName;
-
-				let address = `Tỉnh ${provinceName || province}, ${
-					districtName || district
-				}, ${wardName || ward}, ${street}`;
+				let address =
+					`Tỉnh ${province}, ${district}, ${ward}, ${street}` ||
+					`Tỉnh ${
+						provinces.find((x) => x.ProvinceID == province)
+							?.ProvinceName
+					}, ${
+						districts.find((x) => x.DistrictID == district)
+							?.DistrictName
+					}, ${
+						wards.find((x) => x.WardCode == ward)?.WardName
+					},${street}`;
 				console.log("address", address);
 
 				props.onDataChange(address);
@@ -155,6 +153,7 @@ const InfoUserForm = (props) => {
 						},
 					}
 				);
+				console.log(data.data);
 
 				setDistricts(data.data);
 			} catch (error) {
