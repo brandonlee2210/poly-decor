@@ -12,6 +12,7 @@ import UpdateInfo from "./pages/UpdateInfo";
 import History from "./pages/History";
 import HistoryDetail from "./pages/HistoryDetail";
 import ResultCheckout from "./pages/ResultCheckout";
+import SearchResult from "./pages/SearchResult.jsx";
 import { CartProvider } from "./CartContext.jsx";
 import { LoginProvider } from "./LoginContext.jsx";
 import InfoUserForm from "./components/common/InfoUserForm.jsx";
@@ -31,6 +32,10 @@ function App() {
 							<Route
 								path="category/:name"
 								element={<Category />}
+							/>
+							<Route
+								path="search/:keyword"
+								element={<SearchResult />}
 							/>
 							<Route path="cart" element={<Cart />} />
 							<Route path="checkout" element={<Checkout />} />
