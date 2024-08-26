@@ -13,6 +13,7 @@ import History from "./pages/History";
 import HistoryDetail from "./pages/HistoryDetail";
 import ResultCheckout from "./pages/ResultCheckout";
 import SearchResult from "./pages/SearchResult.jsx";
+import SearchResult from "./pages/SearchResult.jsx";
 import { CartProvider } from "./CartContext.jsx";
 import { LoginProvider } from "./LoginContext.jsx";
 import InfoUserForm from "./components/common/InfoUserForm.jsx";

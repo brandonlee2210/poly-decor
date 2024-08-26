@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import "../middlewares/authMiddleware.js";
+
 class BaseRouter {
   constructor(controller, routeName) {
     this.router = Router();
@@ -10,15 +12,15 @@ class BaseRouter {
 
   initRoutes() {
     // Khởi tạo các routes cơ bản
-    this.router.get(`/${this.routeName}`, this.controller.getAll.bind(this.controller));
-    this.router.get(`/${this.routeName}/:id`, this.controller.getById.bind(this.controller));
-    this.router.post(`/${this.routeName}`, this.controller.create.bind(this.controller));
-    this.router.put(`/${this.routeName}/:id`, this.controller.update.bind(this.controller));
-    this.router.delete(`/${this.routeName}/:id`, this.controller.delete.bind(this.controller));
-    this.router.delete(`/${this.routeName}`, this.controller.deleteAll.bind(this.controller));
+    this.router.get(`/${this.routeName}`, this.controller.getAll);
+    this.router.get(`/${this.routeName}/:id`, this.controller.getById);
+    this.router.post(`/${this.routeName}`, this.controller.create);
+    this.router.put(`/${this.routeName}/:id`, this.controller.update);
+    this.router.delete(`/${this.routeName}/:id`, this.controller.delete);
+    this.router.delete(`/${this.routeName}`, this.controller.deleteAll);
   }
 
-  // return router
+  // return route
   get route() {
     return this.router;
   }
@@ -42,3 +44,5 @@ class BaseRouter {
 }
 
 export default BaseRouter;
+
+// Example usage:

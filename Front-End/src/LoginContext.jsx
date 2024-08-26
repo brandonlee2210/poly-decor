@@ -17,6 +17,13 @@ export const LoginProvider = ({ children }) => {
       setIsLoggedIn(true);
     }
   }, []);
+  useEffect(() => {
+    // get id from lcoal storage
+    let id = localStorage.getItem("id");
+    if (id) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     // get userInfo from local storage

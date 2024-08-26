@@ -118,6 +118,12 @@ const ProductDetail = () => {
   //     console.log("Comments: ", res);
   //   });
   // }, [id]);
+  // get comments from product id
+  // useEffect(() => {
+  //   getCommentByProductId(id).then((res) => {
+  //     console.log("Comments: ", res);
+  //   });
+  // }, [id]);
 
   const handleVariantChange = (color, material) => {
     setActiveColor(color);
@@ -137,6 +143,11 @@ const ProductDetail = () => {
     //   console.error(`Color with id ${} not found`);
     //   return;
     // }
+    // const selectedColor = colors.find((x) => x.id === color);
+    // if (!selectedColor) {
+    //   console.error(`Color with id ${} not found`);
+    //   return;
+    // }
 
     const newVariant = variants.find(
       (variant) => variant.color === color && variant.material === material
@@ -144,6 +155,7 @@ const ProductDetail = () => {
 
     if (!newVariant) {
       console.error(
+        `Variant with color ${color} and material ${material} not found`
         `Variant with color ${color} and material ${material} not found`
       );
       return;
@@ -207,7 +219,10 @@ const ProductDetail = () => {
     variants.some((variant) => variant.color === color.value)
   );
 
+  console.log("color", activeColor);
+
   const availableMaterials = variants
+    .filter((variant) => variant.color === activeColor)
     .filter((variant) => variant.color === activeColor)
     .map((variant) => variant.material);
 
@@ -232,8 +247,10 @@ const ProductDetail = () => {
           </div>
           <div className="mt-3 text-lg text-brown-light line-through font-semibold">
             Giá gốc: {variant?.price} ₫
+            Giá gốc: {variant?.price} ₫
           </div>
           <div className="mt-3 text-3xl font-bold text-red-600">
+            Giá: {variant?.price} ₫
             Giá: {variant?.price} ₫
           </div>
           {availableColors.length > 0 && (
@@ -281,6 +298,7 @@ const ProductDetail = () => {
             </div>
           )}
           <div className="mt-5 ">
+          <div className="mt-5 ">
             <label
               htmlFor="quantity"
               className="text-lg mr-2 font-semibold text-brown-strong"
@@ -298,6 +316,12 @@ const ProductDetail = () => {
             />
           </div>
           <div className="grid grid-cols-2 gap-6 mt-10">
+            <div
+              onClick={addToWhistlist}
+              className="bg-brown-light text-brown-strong flex items-center justify-center gap-1 py-4 rounded-lg text-xl font-bold duration-200 border-2 hover:bg-white hover:border-brown-strong hover:border-2"
+            >
+              <i className="fa-solid fa-heart text-xl mr-1 hover:text-red-600 duration-200"></i>{" "}
+              Thêm vào danh sách yêu thích
             <div
               onClick={addToWhistlist}
               className="bg-brown-light text-brown-strong flex items-center justify-center gap-1 py-4 rounded-lg text-xl font-bold duration-200 border-2 hover:bg-white hover:border-brown-strong hover:border-2"
@@ -327,6 +351,8 @@ const ProductDetail = () => {
       </div>
       <h2 className="font-bold text-[32px]">Bình luận sản phẩm</h2>
       <ProductComment id={id} />
+    </div>
+    </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Feedback from "../components/common/Feedback";
 import ListStaff from "../components/common/ListStaff";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import axios from "axios";
 import { Pagination } from "antd";
 
 const Category = () => {
@@ -31,8 +32,8 @@ const Category = () => {
         "http://localhost:8000/api/v1/orders/variants/" + name
       );
 
-      setProducts(response.data);
-    };
+			setProducts(response.data);
+		};
 
     fetchVariants();
   }, [name]);

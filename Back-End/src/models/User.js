@@ -15,31 +15,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+  },
+  image: {},
   role: {
     type: String,
     default: "user",
   },
   email: {
     type: String,
-  },
-  phoneNumber: {
-    type: String,
-  },
-  fullName: {
-    type: String,
-  },
-
-  province: {
-    type: String,
-  },
-  district: {
-    type: String,
-  },
-  ward: {
-    type: String,
-  },
-  street: {
-    type: String,
+    required: false, // Trường email không yêu cầu
+    unique: false, // Không yêu cầu duy nhất
   },
   createdDate: {
     type: Date,
@@ -59,13 +46,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-
 // static method to login user
 userSchema.statics.login = async function (username, password) {
   const user = await this.findOne({ username: username });
 
   if (user) {
-    console.log(user);
+    // console.log(user);
     const auth = await bcrypt.compare(password, user.password);
 
     if (auth) {

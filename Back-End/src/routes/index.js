@@ -2,14 +2,16 @@ import { Router } from "express";
 
 import CategoryRouter from "./category.js";
 import VariantRouter from "./variant.js";
+import UserRouter from "./user.js";
 import OrderRouter from "./order.js";
 import authRouter from "./auth.js";
 import OrderDetailRouter from "./orderDetail.js";
 import VariantProductRouter from "./variantProduct.js";
+import CommentRouter from "./comment.js";
+import ReviewRouter from "./review.js";
 import moment from "moment";
 import querystring from "qs";
 import crypto from "crypto";
-import CommentRouter from "./comment.js";
 
 let config = {
   vnp_TmnCode: "HS7UZ3PF",
@@ -24,11 +26,58 @@ const router = Router();
 router.use("/", new CategoryRouter().route);
 // router.use("/", new ProductRouter().route);
 router.use("/", authRouter);
-router.use("/", new VariantRouter().route);
+
+const variantRouter = new VariantRouter();
+variantRouter.addRouter(
+  "post",
+  "/variants/filtered",
+  variantRouter.controller.getAllPaginationFiltered
+);
+
+variantRouter.addRouter(
+  "post",
+  "/addVariants/addListVariants",
+  variantRouter.controller.addListVariant
+);
+
+variantRouter.addRouter(
+  "get",
+  "/variants/getall/productnopagination",
+  variantRouter.controller.getAllVariantNoPagination
+);
+router.use("/", variantRouter.route);
+
+router.use("/", new UserRouter().route);
 router.use("/", new OrderRouter().route);
-router.use("/", new OrderDetailRouter().route);
+const orderDetailRouter = new OrderDetailRouter();
+orderDetailRouter.addRouter(
+  "get",
+  "/statistic/products-by-month",
+  orderDetailRouter.controller.getMostOrderDetailCreatedThroughEachMonth
+);
+orderDetailRouter.addRouter(
+  "get",
+  "/statistic/list-data",
+  orderDetailRouter.controller.getAllOrdersWithDetailsAndUsers
+);
+orderDetailRouter.addRouter(
+  "get",
+  "/statistic/revenue-each",
+  orderDetailRouter.controller.getAllRevenueEachMonth
+);
+router.use("/", orderDetailRouter.route);
 router.use("/", new VariantProductRouter().route);
-router.use("/", new CommentRouter().route);
+router.use("/", new OrderDetailRouter().route);
+router.use("/", new ReviewRouter().route);
+
+const commentRouter = new CommentRouter();
+commentRouter.addRouter(
+  "get",
+  "/comments/byproduct/:id",
+  commentRouter.controller.getCommentsByProductId
+);
+router.use("/", commentRouter.route);
+
 const orderRouter = new OrderRouter();
 orderRouter.addRouter(
   "post",
@@ -56,6 +105,20 @@ orderRouter.addRouter(
   orderRouter.controller.getOrderDetailsByOrderId
 );
 
+const variantProductRouter = new VariantProductRouter();
+variantProductRouter.addRouter(
+  "get",
+  "/variantProducts/colors/getall",
+  variantProductRouter.controller.getAllColor
+);
+
+variantProductRouter.addRouter(
+  "get",
+  "/variantProducts/materials/getall",
+  variantProductRouter.controller.getAllMaterial
+);
+router.use("/", variantProductRouter.route);
+
 router.post("/create_payment_url", function (req, res, next) {
   process.env.TZ = "Asia/Ho_Chi_Minh";
 
@@ -73,7 +136,7 @@ router.post("/create_payment_url", function (req, res, next) {
   let vnpUrl = config.vnp_Url;
   let returnUrl = config["vnp_ReturnUrl"];
   let orderId = moment(date).format("DDHHmmss");
-  let amount = 1000000;
+  let amount = req.body.amount || 1000000;
   let bankCode = "NCB";
 
   let locale = req.body.language;
@@ -97,6 +160,10 @@ router.post("/create_payment_url", function (req, res, next) {
   if (bankCode !== null && bankCode !== "") {
     vnp_Params["vnp_BankCode"] = bankCode;
   }
+
+  let { orderDataSave } = req.body;
+
+  orderRouter.controller.saveOrderFromVNP(orderDataSave);
 
   vnp_Params = sortObject(vnp_Params);
 
@@ -130,7 +197,7 @@ router.get("/vnpay_return", function (req, res, next) {
     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
 
     // res.status(200).json({ status: "00", data: vnp_Params });
-    res.redirect("http://localhost:5173/result-checkout");
+    res.redirect("http://localhost:5173/result-checkout/vnp");
   } else {
     res.status(200).json({ status: "00", data: vnp_Params });
   }
