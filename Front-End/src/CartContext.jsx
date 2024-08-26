@@ -12,6 +12,11 @@ const CartProvider = ({ children }) => {
     setCarts(storedCarts);
   }, []);
 
+  useEffect(() => {
+    const whistlists = JSON.parse(localStorage.getItem("whistlists")) || [];
+    setWhistlists(whistlists);
+  }, []);
+
   const addWhistlist = (newProduct) => {
     const existingWhistlist = whistlists.find(
       (product) => product._id === newProduct._id
@@ -24,6 +29,11 @@ const CartProvider = ({ children }) => {
       "whistlists",
       JSON.stringify([...whistlists, newProduct])
     );
+  };
+
+  const removeAll = () => {
+    setCarts([]);
+    localStorage.removeItem("carts");
   };
 
   const removeWhistlist = (productId) => {
@@ -41,7 +51,6 @@ const CartProvider = ({ children }) => {
         cart.material === newCart.material
     );
 
-    console.log(newCart.quantity, "quantity");
     if (existingCartColorMaterial) {
       existingCartColorMaterial.quantity += +newCart.quantity;
       return;
@@ -64,9 +73,13 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("carts", JSON.stringify(updatedCarts));
   };
 
-  const increaseQuantity = (productId) => {
+  const increaseQuantity = (cartId, color, material) => {
     const updatedCarts = carts.map((product) => {
-      if (product._id === productId) {
+      if (
+        product._id === cartId &&
+        product.color === color &&
+        product.material === material
+      ) {
         return { ...product, quantity: product.quantity + 1 };
       }
       return product;
@@ -75,9 +88,13 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("carts", JSON.stringify(updatedCarts));
   };
 
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (cartId, color, material) => {
     const updatedCarts = carts.map((product) => {
-      if (product._id === productId && product.quantity > 1) {
+      if (
+        product._id === cartId &&
+        product.color === color &&
+        product.material === material
+      ) {
         return { ...product, quantity: product.quantity - 1 };
       }
       return product;
@@ -97,6 +114,7 @@ const CartProvider = ({ children }) => {
         removeWhistlist,
         increaseQuantity,
         decreaseQuantity,
+        removeAll,
       }}
     >
       {children}

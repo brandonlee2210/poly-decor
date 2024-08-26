@@ -4,26 +4,26 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const ListCategory = () => {
-	const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-	useEffect(() => {
-		const fetchCategories = async () => {
-			try {
-				const response = await axios.get(
-					"http://localhost:8000/api/v1/categories"
-				);
-				setCategories(response.data.data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/v1/categories"
+        );
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-		fetchCategories();
-	}, []);
+    fetchCategories();
+  }, []);
 
-	const list = [
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  const list = [
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
                 <g id="Group_412" data-name="Group 412" transform="translate(9791 1536)">
                     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-9791 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
                     <rect width="64" height="64" rx="8" stroke="none"/>
@@ -42,10 +42,10 @@ const ListCategory = () => {
                 </g>
                 </svg>
                 `,
-			title: "Nội Thất<br>Phòng Khách",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Nội Thất<br>Phòng Khách",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_411" data-name="Group 411" transform="translate(9620 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-9620 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -67,11 +67,11 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Nội Thất<br>Phòng Ăn",
-			url: "category/1",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Nội Thất<br>Phòng Ăn",
+      url: "category/1",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_410" data-name="Group 410" transform="translate(9449 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-9449 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -91,11 +91,11 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Nội Thất<br>Phòng Ngủ",
-			url: "category/1",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Nội Thất<br>Phòng Ngủ",
+      url: "category/1",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_406" data-name="Group 406" transform="translate(9278 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-9278 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -114,11 +114,11 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Nội Thất<br>Phòng Làm Việc",
-			url: "category/1",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Nội Thất<br>Phòng Làm Việc",
+      url: "category/1",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_407" data-name="Group 407" transform="translate(9107 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-9107 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -146,11 +146,11 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Nội Thất<br>Trẻ Em",
-			url: "category/1",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Nội Thất<br>Trẻ Em",
+      url: "category/1",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_408" data-name="Group 408" transform="translate(8765 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-8765 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -172,11 +172,11 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Chăn Ga<br>Gối Đệm",
-			url: "category/1",
-		},
-		{
-			svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      title: "Chăn Ga<br>Gối Đệm",
+      url: "category/1",
+    },
+    {
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <g id="Group_409" data-name="Group 409" transform="translate(8936 1536)">
     <g id="Rectangle_1195" data-name="Rectangle 1195" transform="translate(-8936 -1536)" fill="#ddb671" stroke="#ddb671" stroke-width="1">
       <rect width="64" height="64" rx="8" stroke="none"/>
@@ -196,28 +196,28 @@ const ListCategory = () => {
   </g>
 </svg>
 `,
-			title: "Đồ<br>Trang Trí",
-			url: "category/1",
-		},
-	];
-	return (
-		<div className="grid grid-cols-7 bg-white px-[25px] pt-[15px] pb-[35px] rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.6)] relative top-[-50px]">
-			{list.map((item, index) => (
-				<Link key={index} to={item.url}>
-					<div className="flex items-center flex-col gap-2">
-						<div
-							className="duration-500 hover:scale-125"
-							dangerouslySetInnerHTML={{ __html: item.svg }}
-						/>
-						<div
-							className="text-center text-sm font-semibold duration-500 hover:text-brown-light"
-							dangerouslySetInnerHTML={{ __html: item.title }}
-						/>
-					</div>
-				</Link>
-			))}
-		</div>
-	);
+      title: "Đồ<br>Trang Trí",
+      url: "category/1",
+    },
+  ];
+  return (
+    <div className="grid grid-cols-7 bg-white px-[25px] pt-[15px] pb-[35px] rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.6)] relative top-[-50px]">
+      {list.map((item, index) => (
+        <Link key={index} to={item.url}>
+          <div className="flex items-center flex-col gap-2">
+            <div
+              className="duration-500 hover:scale-125"
+              dangerouslySetInnerHTML={{ __html: item.svg }}
+            />
+            <div
+              className="text-center text-sm font-semibold duration-500 hover:text-brown-light"
+              dangerouslySetInnerHTML={{ __html: item.title }}
+            />
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 };
 
 export default ListCategory;

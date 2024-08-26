@@ -10,9 +10,11 @@ const InfoUserForm = (props) => {
   const [wards, setWards] = useState([]);
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
+  const [email, setEmail] = useState("");
   const [ward, setWard] = useState("");
   const [street, setStreet] = useState("");
-
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("")
   const id = localStorage.getItem("id");
 
   const [form] = Form.useForm();
@@ -43,12 +45,15 @@ const InfoUserForm = (props) => {
       try {
         const res = await axios.get(`http://localhost:8000/api/v1/auth/${id}`);
         const user = res.data.user;
+        console.log(user);
 
         setProvince(user.province);
         setDistrict(user.district);
         setWard(user.ward);
         setStreet(user.street);
-
+        setEmail(user.email);
+        setPhone(user.phoneNumber);
+        setName(user.fullName)
         form.setFieldsValue({
           fullName: user.fullName,
           phoneNumber: user.phoneNumber,
@@ -114,20 +119,22 @@ const InfoUserForm = (props) => {
 
   useEffect(() => {
     if (typeof props.onDataChange === "function") {
-      if (province && district && ward) {
-        let address =
-          `Tỉnh ${
-            provinces.find((x) => x.ProvinceID == province)?.ProvinceName
-          }, ${
-            districts.find((x) => x.DistrictID == district)?.DistrictName
-          }, ${wards.find((x) => x.WardCode == ward)?.WardName},${street}` ||
-          `Tỉnh ${province}, ${district}, ${ward}, ${street}`;
-        console.log("address", address);
-
-        props.onDataChange(address);
+      if (email && phone) {
+        if (province && district && ward) {
+          let address =
+            `Tỉnh ${
+              provinces.find((x) => x.ProvinceID == province)?.ProvinceName
+            }, ${
+              districts.find((x) => x.DistrictID == district)?.DistrictName
+            }, ${wards.find((x) => x.WardCode == ward)?.WardName},${street}` ||
+            `Tỉnh ${province}, ${district}, ${ward}, ${street}`;
+          console.log("address", address);
+          props.onDataChange({ address, email, phone,name ,district, ward});
+        }
       }
     }
-  }, [province, district, ward, props, provinces, districts, wards]);
+  }, [province, district, ward, email, phone, provinces, districts, wards]);
+  
   const handleGetDistricts = (provinceId) => {
     setProvince(provinceId);
     setDistrict(""); // Reset district and ward when province changes
@@ -140,6 +147,8 @@ const InfoUserForm = (props) => {
   };
 
   const handleSubmit = async (values) => {
+    setEmail(values.email);
+    setPhone(values.phoneNumber);
     try {
       const res = await axios.put(
         `http://localhost:8000/api/v1/auth/${id}`,
@@ -162,8 +171,10 @@ const InfoUserForm = (props) => {
   const display = props.type === "checkout" ? "none" : "flex";
   const background = props.type === "checkout" ? "bg-[#FFF]" : "bg-[#DDB671]";
   const minHeight = props.type === "checkout" ? "" : "min-h-[750px]";
-  const namePro = provinces.find((prov) => prov.ProvinceID == province)?.ProvinceID
-console.log(namePro);
+  const namePro = provinces.find(
+    (prov) => prov.ProvinceID == province
+  )?.ProvinceID;
+  console.log(namePro);
 
   const title =
     props.type === "checkout" ? (
@@ -182,12 +193,14 @@ console.log(namePro);
         <Button
           type="primary"
           htmlType="submit"
-          className="bg-brown-strong text-white px-8 py-4 font-bold rounded-lg shadow-md hover:bg-brown-dark transition-colors duration-300"
+          className="bg-brown-strong text-white px-8 py-4 font-bold rounded-lg shadow-md  transition-colors duration-300"
+          
         >
           Xác nhận
         </Button>
       </div>
     );
+  console.log(email);
 
   return (
     <div className={`${minHeight} ${display} items-center justify-center`}>
@@ -235,7 +248,7 @@ console.log(namePro);
               }
               onChange={handleGetDistricts}
               className="w-full"
-              style={{height: "48px"}}
+              style={{ height: "48px" }}
             >
               {provinces.map((prov) => (
                 <Option key={prov.ProvinceID} value={prov.ProvinceID}>
@@ -250,7 +263,7 @@ console.log(namePro);
               placeholder="Quận/Huyện"
               value={district}
               onChange={handleGetWards}
-              style={{height: "48px"}}
+              style={{ height: "48px" }}
               className="w-full"
             >
               {districts.map((dist) => (
@@ -267,7 +280,7 @@ console.log(namePro);
               value={ward}
               onChange={(value) => setWard(value)}
               className="w-full"
-              style={{height: "48px"}}
+              style={{ height: "48px" }}
             >
               {wards.map((wardObj) => (
                 <Option key={wardObj.WardCode} value={wardObj.WardCode}>
@@ -287,7 +300,6 @@ console.log(namePro);
               placeholder="Đường/Phố"
               className="outline-none border border-gray-300 rounded-lg px-4 py-3 w-full placeholder:text-gray-600 text-gray-800 focus:ring-2 focus:ring-brown-strong bg-opacity-75 shadow-sm transition-all duration-300"
               value={street}
-              onChange={(e) => setStreet(e.target.value)}
             />
           </Form.Item>
         </div>

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
 import { CartContext } from "../CartContext";
-
+import { LoginContext } from "../LoginContext";
 import { Link } from "react-router-dom";
+import { Modal } from "antd";
 
 const History = () => {
   const [orders, setOrders] = useState([]);
   const { carts, addCart, removeCart } = useContext(CartContext);
+  const { userInfo } = useContext(LoginContext);
 
   const isOrdersEmpty = orders.length === 0;
 
@@ -18,18 +19,21 @@ const History = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       let response = await axios.get(
-        "http://localhost:8000/api/v1/ordersByUser/669f63c0a71e0102f6be60a6"
+        "http://localhost:8000/api/v1/ordersByUser/" + userInfo._id
       );
       setOrders(response.data);
+      console.log("res", response.data);
+      
     };
     fetchOrders();
-  }, []);
+  }, [userInfo._id]);
 
   const orderStatus = {
     1: "Chờ xác nhận",
     2: "Đang giao hàng",
     3: "Đã giao hàng",
     4: "Đã huỷ",
+    5: "Đã nhận hàng",
   };
 
   const colorOrderStatus = {
@@ -37,10 +41,28 @@ const History = () => {
     2: "#1890FF",
     3: "#2F5496",
     4: "#F5222D",
+    5: "#28a745"
   };
 
   const getOrderAndColorStatus = (status) => {
+    console.log(status);
+    
     return { status: orderStatus[status], color: colorOrderStatus[status] };
+  };
+
+  const handleChangeStatus = async (orderId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:8000/api/v1/orders/${orderId}`, {
+        status: newStatus,
+      });
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update order status", error);
+    }
   };
 
   return (
@@ -50,12 +72,6 @@ const History = () => {
           <div className="text-center text-2xl font-semibold text-brown-strong">
             Đơn hàng của bạn trống.
           </div>
-          <Link
-            to={"/"}
-            className="text-white px-5 py-3 bg-green-500 rounded-lg text-lg font-semibold hover:opacity-70"
-          >
-            Tiếp tục mua hàng
-          </Link>
         </div>
       ) : (
         <div>
@@ -69,7 +85,7 @@ const History = () => {
                 <th className="text-brown-strong font-semibold text-lg">
                   Ngày đặt
                 </th>
-                <th className="text-brown-strong font-semibold text-lg">
+                <th className="text-brown-strong font-semibold text-lg ">
                   Địa chỉ
                 </th>
                 <th className="text-brown-strong font-semibold text-lg">
@@ -88,29 +104,20 @@ const History = () => {
                     {index + 1}
                   </td>
                   <td className="text-brown-strong p-3 align-middle flex items-center gap-3 max-w-[520px]">
-                    {/* <img
-                      src={`/src/assets/images/sale-product-1.jpg`}
-                      alt="product image"
-                      className="w-[200px]"
-                    /> */}
                     <div>
                       <span className="text-lg font-semibold">
-                        {/* to ISO String */}
-                        {
-                          new Date(product.orderDate).toLocaleDateString(
-                            "vi-VN",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )
-                          // new Date(product.orderDate).toISOString().split('T')[0]
-                        }
+                        {new Date(product.orderDate).toLocaleDateString(
+                          "vi-VN",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
                       </span>
                     </div>
                   </td>
-                  <td className="text-brown-strong p-3 align-middle">
+                  <td className={`text-brown-strong p-3 align-middle ${product.status == 2 ? "w-[400px]" : ""}`}>
                     {product.address}
                   </td>
                   <td className="text-brown-strong p-3 text-lg font-semibold">
@@ -118,6 +125,7 @@ const History = () => {
                   </td>
                   {/* Custom button status */}
                   <td className="text-brown-strong p-3 text-lg font-semibold">
+                    
                     <div
                       className="text-white w-[160px] items-center justify-center px-3 py-1 rounded-lg"
                       style={{
@@ -128,6 +136,7 @@ const History = () => {
                       {getOrderAndColorStatus(product.status).status}
                     </div>
                   </td>
+
                   <td className="text-brown-strong p-3 text-xl hover:text-red-600 cursor-pointer">
                     <Link
                       to={`/history/${product._id}`}
@@ -139,26 +148,23 @@ const History = () => {
                       Xem chi tiết
                     </Link>
                   </td>
+                  {product.status == 2 && (
+                    <td className="text-brown-strong p-3 text-xl hover:text-red-600 cursor-pointer">
+                      <div
+                        className="text-red px-5 py-2 rounded-lg text-lg font-semibold hover:opacity-70"
+                        onClick={() => {
+                          // Handle click to view order details
+                          handleChangeStatus(product._id, 5);
+                        }}
+                      >
+                        Đã nhận
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex items-center justify-between mt-4">
-            <Link
-              to={"/"}
-              className="text-white px-5 py-3 bg-green-500 rounded-lg text-lg font-semibold hover:opacity-70"
-            >
-              Tiếp tục mua hàng
-            </Link>
-            <div
-              className="text-red-600 text-lg font-semibold cursor-pointer"
-              onClick={() => {
-                carts.forEach((product) => removeCart(product._id));
-              }}
-            >
-              Xóa toàn bộ giỏ hàng
-            </div>
-          </div>
         </div>
       )}
     </div>

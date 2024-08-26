@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { LoginContext } from "../LoginContext";
+import { Button, message } from "antd";
 
 const LoginPage = () => {
   const { isLoggedIn, login, logout } = useContext(LoginContext);
@@ -8,6 +9,17 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!username) {
+      message.error("Tên đăng nhập không được để trống");
+      return;
+    }
+
+    if (!password) {
+      message.error("Mật khẩu không được để trống");
+      return;
+    }
+
     const response = await login(username, password);
   };
 
@@ -23,21 +35,20 @@ const LoginPage = () => {
         <div className="w-full bg-brown-light rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
-              Login to your account
+              Đăng nhập vào tài khoản của bạn
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-white "
+                  className="block mb-2 text-sm font-medium text-black "
                 >
-                  Username
+                  Tên đăng nhập
                 </label>
                 <input
                   name="text"
                   id="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dy-400"
-                  required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -47,14 +58,13 @@ const LoginPage = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  Mật khẩu
                 </label>
                 <input
                   type="password"
                   name="password"
                   id="password"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -63,17 +73,17 @@ const LoginPage = () => {
                 type="submit"
                 className="w-full text-white bg-brown-strong hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Login
+                Đăng nhập
               </button>
             </form>
             {isLoggedIn && <p>You are logged in!</p>}
             <p className="text-sm font-light text-gray-500">
-              Don't have an account?{" "}
+              Nếu bạn chưa có tài khoản thì{" "}
               <a
                 href="/register"
                 className="font-medium text-primary-600 hover:underline"
               >
-                Resgister
+                đăng kí
               </a>
             </p>
           </div>
