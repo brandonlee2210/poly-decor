@@ -8,13 +8,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import categoryImage1 from "../assets/images/category-1.1.jpg";
 import rightProductDetail from "../assets/images/right-product-detail.jpg";
 import ProductComment from "../components/common/Comment";
+import Review from "../components/common/Review";
 import ProductItem from "../components/common/ProductItem";
 import {
   getProductById,
   getCommentByProductId,
   getAllVariantsProduct,
 } from "../api/api";
-import { Button, message } from "antd";
+import { Button, message, notification } from "antd";
 import moment from "moment";
 
 const colors = [
@@ -22,6 +23,47 @@ const colors = [
   { name: "Màu vàng", id: "bg-yellow-main", value: "Vàng" },
   { name: "Màu trắng", id: "bg-white", value: "Trắng" },
 ];
+
+const reviews = [
+  {
+    author: "User 1",
+    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    rating: 5,
+    comment: "This is a great product!",
+    datetime: "2022-01-01",
+  },
+  {
+    author: "User 2",
+    avatar: "https://randomuser.me/api/portraits/men/40.jpg",
+    rating: 4,
+    comment: "Good quality, but a bit expensive.",
+    datetime: "2022-01-02",
+  },
+];
+
+const StarRating = ({ rating, onRatingChange }) => {
+  const handleClick = (value) => {
+    onRatingChange(value);
+  };
+
+  const { id } = useParams();
+
+  console.log(id);
+
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map((value) => (
+        <span
+          key={value}
+          className={`star ${value <= rating ? "filled" : ""}`}
+          onClick={() => handleClick(value)}
+        >
+          &#9733;
+        </span>
+      ))}
+    </div>
+  );
+};
 
 const materials = ["Gỗ sồi", "Gỗ thông"];
 
@@ -33,7 +75,7 @@ const ProductDetail = () => {
   const [variant, setVariant] = useState({});
   const [variants, setVariants] = useState([]);
   const [activeColor, setActiveColor] = useState("");
-  const [material, setMaterial] = useState(materials[0]);
+  const [material, setMaterial] = useState();
   const [color, setColor] = useState(colors[0]);
   const [quantity, setQuantity] = useState(1); // Thêm state cho số lượng
 
@@ -53,9 +95,9 @@ const ProductDetail = () => {
       const materials = res
         ?.filter((v) => v.variantProductType === "material")
         .map((x) => x.variantProductName);
-
+      console.log(colors, "hihi");
       setColors(colors);
-      setActiveColor(colors[0].value);
+
       setMaterials(materials);
     });
   }, []);
@@ -64,6 +106,8 @@ const ProductDetail = () => {
     getProductById(id).then((res) => {
       setProduct(res);
       setVariants(res.variants);
+      setActiveColor(res.variants[0].color);
+      setMaterial(res.variants[0].material);
       setVariant(res.variants[0]);
     });
   }, [id]);
@@ -74,15 +118,18 @@ const ProductDetail = () => {
   //     console.log("Comments: ", res);
   //   });
   // }, [id]);
+  // get comments from product id
+  // useEffect(() => {
+  //   getCommentByProductId(id).then((res) => {
+  //     console.log("Comments: ", res);
+  //   });
+  // }, [id]);
 
   const handleVariantChange = (color, material) => {
-    console.log(color, material);
     setActiveColor(color);
 
     if (!material) {
       let variantHasColor = variants.find((variant) => variant.color === color);
-
-      console.log(variantHasColor, "hasColor");
 
       if (variantHasColor) {
         setVariant(variantHasColor);
@@ -96,6 +143,11 @@ const ProductDetail = () => {
     //   console.error(`Color with id ${} not found`);
     //   return;
     // }
+    // const selectedColor = colors.find((x) => x.id === color);
+    // if (!selectedColor) {
+    //   console.error(`Color with id ${} not found`);
+    //   return;
+    // }
 
     const newVariant = variants.find(
       (variant) => variant.color === color && variant.material === material
@@ -103,6 +155,7 @@ const ProductDetail = () => {
 
     if (!newVariant) {
       console.error(
+        `Variant with color ${color} and material ${material} not found`
         `Variant with color ${color} and material ${material} not found`
       );
       return;
@@ -112,20 +165,54 @@ const ProductDetail = () => {
   };
 
   const addToCart = () => {
+    let newQuantity = +quantity;
+    // check if the variant in cart plus current quantity is greater than the quantity in stock
+    let existingItem = carts.find(
+      (cart) =>
+        cart.id === product.id &&
+        cart.color === activeColor &&
+        cart.material === material
+    )?.quantity;
+
+    if (existingItem) {
+      newQuantity += +existingItem;
+      console.log(carts);
+    }
+
+    if (newQuantity > variant.quantity) {
+      notification.error({
+        message: "Thêm vào giỏ hàng",
+        description: "Số lượng sản phẩm trong giỏ hàng vượt quá số lượng trong kho",
+      })
+      return;
+    }
+    // check if the variant in cart plus current quantity is greater than the quantity in stock
+
     let cartData = {
       ...product,
       material,
-      color: colors.find((c) => c.id === activeColor).value,
+      color: activeColor,
       price: variant.price,
-      quantity, // Thêm số lượng vào dữ liệu giỏ hàng
+      quantity: +quantity, // Thêm số lượng vào dữ liệu giỏ hàng
     };
+
+    console.log(cartData);
+
     addCart(cartData);
-    message.success(`Thêm thành công ${product.name} vào giỏ hàng`);
+    // message.success(`Thêm thành công ${product.name} vào giỏ hàng`);
+    notification.success({
+      message: "Thành công",
+      description: `Thêm thành công ${product.name} vào giỏ hàng`,
+    });
   };
 
   const addToWhistlist = () => {
     addWhistlist(product);
-    message.success(`Thêm thành công ${product.name} vào danh sách yêu thích`);
+    // message.success(`Thêm thành công ${product.name} vào danh sách yêu thích`);
+    notification.success({
+      message: "Thành công",
+      description: `Thêm thành công ${product.name} vào danh sách yêu thích`,
+    });
   };
 
   const availableColors = colorsArr.filter((color) =>
@@ -135,6 +222,7 @@ const ProductDetail = () => {
   console.log("color", activeColor);
 
   const availableMaterials = variants
+    .filter((variant) => variant.color === activeColor)
     .filter((variant) => variant.color === activeColor)
     .map((variant) => variant.material);
 
@@ -154,40 +242,16 @@ const ProductDetail = () => {
             <span className="text-brown-light mr-1">Danh mục:</span>
             {product.categoryName}
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <div>
-              <i className="fa-solid fa-star text-yellow-500"></i>
-              <i className="fa-solid fa-star text-yellow-500"></i>
-              <i className="fa-solid fa-star text-yellow-500"></i>
-              <i className="fa-solid fa-star text-yellow-500"></i>
-              <i className="fa-regular fa-star text-yellow-500"></i>
-            </div>
-            |<div className="text-gray-500">1000 lượt mua</div>
-          </div>
           <div className="mt-3 mr-3 text-lg text-brown-light font-semibold">
             Số lượng: {variant?.quantity}
           </div>
           <div className="mt-3 text-lg text-brown-light line-through font-semibold">
             Giá gốc: {variant?.price} ₫
+            Giá gốc: {variant?.price} ₫
           </div>
           <div className="mt-3 text-3xl font-bold text-red-600">
             Giá: {variant?.price} ₫
-          </div>
-          <div className="mt-5 flex items-center gap-3">
-            <span className="text-lg font-semibold text-brown-strong">
-              Màu sắc:{" "}
-            </span>
-            <div className="flex items-center gap-5">
-              {availableColors.map((color) => (
-                <span
-                  key={color.id}
-                  className={`w-7 h-7 duration-300 cursor-pointer hover:scale-125 shadow-[0_0_6px_rgba(0,0,0,0.5)] ${
-                    color.id
-                  } ${activeColor === color.id ? "scale-125" : ""}`}
-                  onClick={() => handleVariantChange(color.id, null)}
-                ></span>
-              ))}
-            </div>
+            Giá: {variant?.price} ₫
           </div>
           {availableColors.length > 0 && (
             <div className="mt-5">
@@ -234,6 +298,7 @@ const ProductDetail = () => {
             </div>
           )}
           <div className="mt-5 ">
+          <div className="mt-5 ">
             <label
               htmlFor="quantity"
               className="text-lg mr-2 font-semibold text-brown-strong"
@@ -257,6 +322,12 @@ const ProductDetail = () => {
             >
               <i className="fa-solid fa-heart text-xl mr-1 hover:text-red-600 duration-200"></i>{" "}
               Thêm vào danh sách yêu thích
+            <div
+              onClick={addToWhistlist}
+              className="bg-brown-light text-brown-strong flex items-center justify-center gap-1 py-4 rounded-lg text-xl font-bold duration-200 border-2 hover:bg-white hover:border-brown-strong hover:border-2"
+            >
+              <i className="fa-solid fa-heart text-xl mr-1 hover:text-red-600 duration-200"></i>{" "}
+              Thêm vào danh sách yêu thích
             </div>
             <div
               onClick={addToCart}
@@ -270,7 +341,18 @@ const ProductDetail = () => {
           <img src={rightProductDetail} alt="right image" />
         </div>
       </div>
+      <div className=" mt-5">
+        <h2 className="font-bold text-[32px]">Đánh giá sản phẩm</h2>
+        <div>
+          {reviews.map((review, index) => (
+            <Review key={index} {...review} />
+          ))}
+        </div>
+      </div>
+      <h2 className="font-bold text-[32px]">Bình luận sản phẩm</h2>
       <ProductComment id={id} />
+    </div>
+    </div>
     </div>
   );
 };

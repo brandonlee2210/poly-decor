@@ -31,6 +31,11 @@ const CartProvider = ({ children }) => {
     );
   };
 
+  const removeAll = () => {
+    setCarts([]);
+    localStorage.removeItem("carts");
+  };
+
   const removeWhistlist = (productId) => {
     const updatedWhistlists = whistlists.filter(
       (product) => product._id !== productId
@@ -68,9 +73,13 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("carts", JSON.stringify(updatedCarts));
   };
 
-  const increaseQuantity = (productId) => {
+  const increaseQuantity = (cartId, color, material) => {
     const updatedCarts = carts.map((product) => {
-      if (product._id === productId) {
+      if (
+        product._id === cartId &&
+        product.color === color &&
+        product.material === material
+      ) {
         return { ...product, quantity: product.quantity + 1 };
       }
       return product;
@@ -79,9 +88,13 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("carts", JSON.stringify(updatedCarts));
   };
 
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (cartId, color, material) => {
     const updatedCarts = carts.map((product) => {
-      if (product._id === productId && product.quantity > 1) {
+      if (
+        product._id === cartId &&
+        product.color === color &&
+        product.material === material
+      ) {
         return { ...product, quantity: product.quantity - 1 };
       }
       return product;
@@ -101,6 +114,7 @@ const CartProvider = ({ children }) => {
         removeWhistlist,
         increaseQuantity,
         decreaseQuantity,
+        removeAll,
       }}
     >
       {children}

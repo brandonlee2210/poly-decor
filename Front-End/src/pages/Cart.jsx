@@ -1,21 +1,46 @@
 import React, { useContext } from "react";
 import { CartContext } from "../CartContext";
+import { LoginContext } from "../LoginContext";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { message } from "antd";
 
 const Cart = () => {
   const { carts, removeCart, increaseQuantity, decreaseQuantity } =
     useContext(CartContext);
+
+  const { isLoggedIn } = useContext(LoginContext);
+
+  const navigate = useNavigate();
 
   const isCartEmpty = carts.length === 0;
   const totalQuantity = carts.reduce(
     (total, product) => +total + +product.quantity,
     0
   );
+  console.log(totalQuantity, "1");
   const totalPrice = carts.reduce(
     (total, product) => total + product.price * product.quantity,
     0
   );
   const finalPrice = totalPrice;
+
+  const handleCheckout = () => {
+    // Implement your checkout logic herie
+    // Example: Redirect to payment gateway or show success message
+    if (!isLoggedIn) {
+      message.info("Vui lòng đăng nhập để tiến hành đặt hàng!");
+      return;
+    }
+
+    navigate("/checkout");
+  };
+
+  const handleOnClickImg = (id) => {
+    // Implement your image click event here
+    // Example: Open a modal with product details or show a toast notification
+    navigate(`/product/${id}`);
+  };
 
   return (
     <div className="container2 grid grid-cols-[3fr_1fr] gap-5 mt-16">
@@ -25,7 +50,7 @@ const Cart = () => {
             Giỏ hàng của bạn trống.
           </div>
           <Link
-            to={"/"}
+            to={"/search/empty"}
             className="text-white px-5 py-3 bg-green-500 rounded-lg text-lg font-semibold hover:opacity-70"
           >
             Tiếp tục mua hàng
@@ -56,9 +81,10 @@ const Cart = () => {
                 <tr key={index} className="border-b border-brown-strong">
                   <td className="text-brown-strong p-3 align-middle flex items-center gap-3 max-w-[520px]">
                     <img
-                      src={`/src/assets/images/${product.image}`}
+                      src={`${product.image}`}
                       alt="product image"
                       className="w-[200px]"
+                      onClick={() => handleOnClickImg(product._id)}
                     />
                     <div>
                       <span className="text-lg font-semibold">
@@ -85,7 +111,13 @@ const Cart = () => {
                       ring-offset-2
                       ring-blue-500
                       "
-                        onClick={() => decreaseQuantity(product._id)}
+                        onClick={() =>
+                          decreaseQuantity(
+                            product._id,
+                            product.color,
+                            product.material
+                          )
+                        }
                       >
                         -
                       </button>
@@ -104,7 +136,13 @@ const Cart = () => {
                       ring-blue-500
                       
                     "
-                        onClick={() => increaseQuantity(product._id)}
+                        onClick={() =>
+                          increaseQuantity(
+                            product._id,
+                            product.color,
+                            product.material
+                          )
+                        }
                       >
                         +
                       </button>
@@ -130,7 +168,7 @@ const Cart = () => {
           </table>
           <div className="flex items-center justify-between mt-4">
             <Link
-              to={"/"}
+              to={"/search/empty"}
               className="text-white px-5 py-3 bg-green-500 rounded-lg text-lg font-semibold hover:opacity-70"
             >
               Tiếp tục mua hàng
@@ -165,12 +203,12 @@ const Cart = () => {
               {finalPrice.toLocaleString()} ₫
             </span>
           </div>
-          <Link
-            to={"/checkout"}
+          <div
+            onClick={handleCheckout}
             className="block mt-5 text-center py-3 text-lg font-semibold uppercase rounded-lg bg-brown-light text-white border-2 border-brown-light duration-200 hover:text-brown-light hover:border-brown-light hover:bg-white"
           >
             Đặt hàng
-          </Link>
+          </div>
         </div>
       )}
     </div>

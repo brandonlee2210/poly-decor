@@ -176,7 +176,6 @@ const Checkout = () => {
         status: 1,
         date: new Date(),
         products: carts,
-        products: carts,
       });
       console.log(res);
       if (res) {
@@ -267,36 +266,10 @@ const Checkout = () => {
         orderDataSave
       );
 
-    if (payment == "vnpay") {
-      // Your code here to submit the form
-      // Navigate to the payment page
-      let res = await axios.post(
-        "http://localhost:8000/api/v1/create_payment_url",
-        {
-          amount: totalPrice,
-          orderDataSave,
-        }
-      );
-
-      if (res.data) {
-        window.location.href = res.data.data;
-      } else {
-        window.location.href = "/";
-      }
-    } else {
-      let res = await axios.post(
-        "http://localhost:8000/api/v1/orders/save-order",
-        orderDataSave
-      );
-
       let emailResutl = await sendEmail(dataAddress.address);
 
       // console.log(res);
-      // console.log(res);
 
-      if (emailResutl) {
-        navigate("/result-checkout");
-      }
       if (emailResutl) {
         navigate("/result-checkout");
       }
@@ -381,7 +354,6 @@ const Checkout = () => {
                   id="atHome"
                   checked={payment === "atHome"}
                   onChange={(e) => setPayment(e.target.id)}
-
                 />
                 <label htmlFor="atHome">Thanh toán khi nhận hàng </label>
               </div>
@@ -406,7 +378,6 @@ const Checkout = () => {
             <span>Phí vận chuyển</span>
             <span className="font-semibold">
               {deliveryFee.toLocaleString()} ₫
-  
             </span>
           </div>
 
@@ -428,5 +399,5 @@ const Checkout = () => {
     </div>
   );
 };
-}
+
 export default Checkout;
