@@ -8,7 +8,6 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
-import UpdateInfo from "./pages/UpdateInfo";
 import History from "./pages/History";
 import HistoryDetail from "./pages/HistoryDetail";
 import ResultCheckout from "./pages/ResultCheckout";
