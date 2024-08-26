@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const commentSchema = new mongoose.Schema({
-  commentID: {
+const reviewSchema = new mongoose.Schema({
+  reviewID: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     auto: true,
@@ -9,6 +9,14 @@ const commentSchema = new mongoose.Schema({
   body: {
     type: String,
     required: true,
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5,
+  },
+  image: {
+    type: String,
   },
   productID: {
     type: mongoose.Schema.Types.ObjectId,
@@ -29,17 +37,17 @@ const commentSchema = new mongoose.Schema({
 });
 
 // Middleware to update the updatedDate before saving
-commentSchema.pre("save", function (next) {
+reviewSchema.pre("save", function (next) {
   this.updatedDate = Date.now();
   next();
 });
 
 // Middleware to update the updatedDate before updating
-commentSchema.pre("findOneAndUpdate", function (next) {
+reviewSchema.pre("findOneAndUpdate", function (next) {
   this.set({ updatedDate: Date.now() });
   next();
 });
 
-const Comment = mongoose.model("Comment", commentSchema);
+const Review = mongoose.model("Review", reviewSchema);
 
-export default Comment;
+export default Review;
