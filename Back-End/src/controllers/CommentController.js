@@ -6,6 +6,9 @@ export default class CommentController extends BaseController {
   constructor() {
     super(Comment);
   }
+
+  // get comments by product id
+
   async getCommentsByProductId(req, res) {
     const { id } = req.params;
     const comments = await Comment.find({ productId: id });
